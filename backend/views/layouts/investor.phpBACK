@@ -1,0 +1,68 @@
+<?php
+$iconArray=array("fa fa-edit","fa fa-desktop","fa fa-sitemap","fa fa-windows","fa fa-bug","fa fa-briefcase","fa fa-fire","fa fa-bar-chart","fa fa-clone","fa fa-feed","fa fa-bar-chart-o","fa fa-fire","fa fa-social-dribbble","fa fa-note","fa fa-graph","fa fa-notebook","fa fa-grid");
+?>
+   <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+                <h3>General</h3>
+                <ul class="nav side-menu">
+                  <li><a href="<?=Yii::app()->createAbsoluteUrl('/frontuser');?>"><i class="fa fa-home"></i> Dashboard </a></li>
+                  <li><a href="<?=Yii::app()->createAbsoluteUrl('Grievance/grievanceUpdate/suggestions');?>"><i class="fa fa-ticket"></i> Grievance</a></li>
+                  <li><a href="<?=Yii::app()->createAbsoluteUrl('frontuser/MonthlyProgressReport/create');?>"><i class="fa fa-bar-chart-o"></i> Upload Monthly Report</a></li>
+                  <li><a href="<?=Yii::app()->createAbsoluteUrl('/plotallotment/Application/plotapplication');?>"><i class="fa fa-globe"></i> Plot Allotment</a></li>
+                     <?php
+                          $Departments=DefaultUtility::getAllDept();
+                          $iconCount=0;
+                          $iconLastVal=end($iconArray);
+                          $iconLastKey=key($iconArray);
+                          reset($iconArray);
+                          foreach ($Departments as $Departments) {
+                            $apps=DefaultUtility::getDeptApp($Departments['dept_id']);
+                            // echo "<pre>";print_r($apps);die;
+                            if(!empty($apps)){
+                              if($iconCount>$iconLastKey)
+                                $iconCount=0;
+                              echo ' <li><a><i class="'.$iconArray[$iconCount++].'"></i>'.$Departments['department_name'].'<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">';
+                                          foreach ($apps as $key => $app) {
+                                            echo ' <li>';
+                                                      if($app['application_name']==='CAF')
+                                                        echo '<a href="'.Yii::app()->createAbsoluteUrl('frontuser/home/CAFStepOne').'" class="">';
+                                                      elseif($app['application_id']==12)
+                                                        echo '<a href="'.Yii::app()->createAbsoluteUrl('applications/application/essentialCertificate').'" class="">';
+                                                      elseif($app['application_id']==13)
+                                                        echo '<a href="'.Yii::app()->createAbsoluteUrl('applications/application/SwavlambanYojana').'" class="">';
+                                                      elseif($app['application_id']==27)
+                                                        echo '<a href="'.Yii::app()->createAbsoluteUrl('applications/application/lrForEssentialCertificate').'" class="">';
+                                                      else
+                                                        echo '<a href="'.Yii::app()->createAbsoluteUrl('frontuser/application_form/generateapplication/department/'.$Departments['dept_id'].'/application/'.$app['application_id']).'" class="">';
+                                                        echo $app["application_name"].'</a>
+                                                   </li>';
+                                          }
+                                        echo '</ul>
+                                      </li>';
+                            }
+                        }
+
+                  echo '</ul>
+              </div>
+    </div>';
+    $SpApps=SpApplicationsExt::getAllSSODept();
+       if(!empty($SpApps)){
+        echo '<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+                <h3>Service Providers</h3>
+                <ul class="nav side-menu">';
+          foreach ($SpApps as $apps) {
+            if($iconCount>$iconLastKey)
+              $iconCount=0;
+             echo '<li><a href="'.Yii::app()->createAbsoluteUrl('frontuser/application_form/applicationList/serviceProvider/'.base64_encode($apps['sp_id'])).'"><i class="'.$iconArray[$iconCount++].'"></i> '.$apps['service_provider_name'].' </a></li>';
+          }
+        echo "</ul>";
+      echo "</div>";
+    echo "</div>";
+
+       }
+
+?>
+
+   
