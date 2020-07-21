@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 20, 2020 at 01:55 PM
+-- Generation Time: Jul 21, 2020 at 05:56 AM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.1.33
 
@@ -21,6 +21,56 @@ SET time_zone = "+00:00";
 --
 -- Database: `cmrefnic`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `application_forward_level`
+--
+
+CREATE TABLE `application_forward_level` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `next_role_id` int(10) UNSIGNED NOT NULL,
+  `application_id` int(10) UNSIGNED NOT NULL,
+  `comment` longtext DEFAULT NULL,
+  `created_on` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_date_time` timestamp NULL DEFAULT NULL,
+  `ip_address` varchar(255) NOT NULL,
+  `status` varchar(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `application_forward_level`
+--
+
+INSERT INTO `application_forward_level` (`id`, `next_role_id`, `application_id`, `comment`, `created_on`, `updated_date_time`, `ip_address`, `status`) VALUES
+(4, 2, 1, 'TO Nodal', '2020-07-21 06:52:29', '0000-00-00 00:00:00', '::1', 'P'),
+(6, 3, 1, 'Sent To Approver', '2020-07-21 07:41:55', '0000-00-00 00:00:00', '::1', 'P'),
+(8, 4, 1, 'Sent To final Approver', '2020-07-21 08:38:51', '0000-00-00 00:00:00', '::1', 'P'),
+(9, 5, 1, 'Approved', '2020-07-21 08:40:51', '0000-00-00 00:00:00', '::1', 'P'),
+(10, 1, 1, NULL, '2020-07-21 08:41:51', '0000-00-00 00:00:00', '::1', 'P'),
+(11, 2, 3, 'Forwarded to Nodal', '2020-07-21 08:57:43', '0000-00-00 00:00:00', '::1', 'P'),
+(12, 3, 3, 'Forwarded to Approver', '2020-07-21 09:13:42', '0000-00-00 00:00:00', '::1', 'P'),
+(13, 4, 3, 'Forwarded to Final Approver', '2020-07-21 09:15:23', '0000-00-00 00:00:00', '::1', 'P'),
+(14, 5, 3, 'Approved', '2020-07-21 09:16:35', '0000-00-00 00:00:00', '::1', 'P'),
+(15, 1, 3, NULL, '2020-07-21 09:17:19', '0000-00-00 00:00:00', '::1', 'P');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bo_application_flow_logs`
+--
+
+CREATE TABLE `bo_application_flow_logs` (
+  `log_id` bigint(20) UNSIGNED NOT NULL,
+  `application_id` int(10) UNSIGNED NOT NULL,
+  `from_role_id` int(10) UNSIGNED DEFAULT NULL,
+  `to_role_id` int(10) UNSIGNED DEFAULT NULL,
+  `comment` longtext DEFAULT NULL,
+  `created_date_time` datetime NOT NULL,
+  `user_agent` varchar(250) NOT NULL,
+  `remote_ip_address` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -113,9 +163,10 @@ CREATE TABLE `mst_roles` (
 
 INSERT INTO `mst_roles` (`role_id`, `role_name`, `is_active`, `is_deleted`, `created_on`, `modified_on`) VALUES
 (1, 'Applicant', 'Y', 'N', '2020-04-04 16:47:44', '2020-04-04 16:47:44'),
-(2, 'DA', 'Y', 'N', '2020-04-04 16:47:44', '2020-04-04 16:47:44'),
+(2, 'Dealing Assistant', 'Y', 'N', '2020-04-04 16:47:44', '2020-04-04 16:47:44'),
 (3, 'Nodal Officer', 'Y', 'N', '2020-04-04 16:47:44', '2020-04-04 16:47:44'),
-(4, 'Approver', 'Y', 'N', '2020-04-04 16:47:44', '2020-04-04 16:47:44');
+(4, 'Approver', 'Y', 'N', '2020-04-04 16:47:44', '2020-04-04 16:47:44'),
+(5, 'Final Approver', 'Y', 'N', '2020-04-04 16:47:44', '2020-04-04 16:47:44');
 
 -- --------------------------------------------------------
 
@@ -161,8 +212,8 @@ CREATE TABLE `mst_user` (
   `district_id` int(11) NOT NULL,
   `is_active` enum('Y','N') NOT NULL DEFAULT 'Y',
   `is_deleted` enum('Y','N') NOT NULL DEFAULT 'N',
-  `created_on` datetime NOT NULL DEFAULT current_timestamp(),
-  `modified_on` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
   `is_password_updated` enum('Y','N') NOT NULL DEFAULT 'N'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -170,10 +221,12 @@ CREATE TABLE `mst_user` (
 -- Dumping data for table `mst_user`
 --
 
-INSERT INTO `mst_user` (`user_id`, `user_name`, `user_full_name`, `email_id`, `password`, `auth_key`, `mobile_number`, `district_id`, `is_active`, `is_deleted`, `created_on`, `modified_on`, `is_password_updated`) VALUES
-(1, 'amit62mishra', 'Anil Semwal', 'amit62mishra@gmail.com', '4d6aac801e3f143be92d99ebd3a290492994d638', '8486d6fda432f7050bb53bba51e1714b', 9418497722, 6, 'Y', 'N', '2020-03-27 17:18:40', '2020-03-27 17:18:40', 'N'),
-(2, 'DA_Invest', 'Anil Semwal', 'da@nic.in', '4d6aac801e3f143be92d99ebd3a290492994d638', '8486d6fda432f7050bb53bba51e1714b', 9418497722, 6, 'Y', 'N', '2020-03-27 17:18:40', '2020-03-27 17:18:40', 'N'),
-(3, 'nodal@shimla', 'Anonymous User', 'nodal@@nic.in', '4d6aac801e3f143be92d99ebd3a290492994d638', '8486d6fda432f7050bb53bba51e1714b', 9999999999, 6, 'Y', 'N', '2020-03-27 17:18:40', '2020-03-27 17:18:40', 'N');
+INSERT INTO `mst_user` (`user_id`, `user_name`, `user_full_name`, `email_id`, `password`, `auth_key`, `mobile_number`, `district_id`, `is_active`, `is_deleted`, `created_at`, `updated_at`, `is_password_updated`) VALUES
+(1, 'DEALING_ASSISTANT', 'test', 'amit62mishra@gmail.com', '$2y$13$718x3f03YzOiulsBVmOS7uUy3I2vK9hwgvi0Mboqg1kldt0sszy/6', 'Lgb3NC71OPLt4lQWy6CQ96XjOBzT-B4M', 9999999999, 6, 'Y', 'N', '2020-03-27 17:18:40', '2020-03-27 17:18:40', 'N'),
+(2, 'APPROVER', 'test', 'da@nic.in', '$2y$13$718x3f03YzOiulsBVmOS7uUy3I2vK9hwgvi0Mboqg1kldt0sszy/6', 'Lgb3NC71OPLt4lQWy6CQ96XjOBzT-B4M', 9999999999, 6, 'Y', 'N', '2020-03-27 17:18:40', '2020-03-27 17:18:40', 'N'),
+(3, 'NODAL', 'test', 'nodal@@nic.in', '$2y$13$718x3f03YzOiulsBVmOS7uUy3I2vK9hwgvi0Mboqg1kldt0sszy/6', 'Lgb3NC71OPLt4lQWy6CQ96XjOBzT-B4M', 9999999999, 6, 'Y', 'N', '2020-03-27 17:18:40', '2020-03-27 17:18:40', 'N'),
+(4, 'FINAL_APPROVER', 'test', 'test@gmail.com', '$2y$13$718x3f03YzOiulsBVmOS7uUy3I2vK9hwgvi0Mboqg1kldt0sszy/6', 'Lgb3NC71OPLt4lQWy6CQ96XjOBzT-B4M', 9999999999, 6, 'Y', 'N', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'N'),
+(5, 'amit62mishra', 'test', 'amit@gmail.com', '$2y$13$718x3f03YzOiulsBVmOS7uUy3I2vK9hwgvi0Mboqg1kldt0sszy/6', 'Lgb3NC71OPLt4lQWy6CQ96XjOBzT-B4M', 9999999999, 6, 'Y', 'N', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'N');
 
 -- --------------------------------------------------------
 
@@ -195,9 +248,11 @@ CREATE TABLE `mst_user_role_mapping` (
 --
 
 INSERT INTO `mst_user_role_mapping` (`map_id`, `user_id`, `role_id`, `is_active`, `is_deleted`, `created_on`) VALUES
-(1, 1, 1, 'Y', 'N', '2020-04-04 16:52:44'),
-(2, 2, 2, 'Y', 'N', '2020-04-04 16:52:44'),
-(3, 3, 3, 'Y', 'N', '2020-04-04 16:52:44');
+(1, 5, 1, 'Y', 'N', '2020-04-04 16:52:44'),
+(2, 1, 2, 'Y', 'N', '2020-04-04 16:52:44'),
+(3, 3, 3, 'Y', 'N', '2020-04-04 16:52:44'),
+(4, 4, 5, 'Y', 'N', '2020-04-04 16:52:44'),
+(5, 2, 4, 'Y', 'N', '2020-04-04 16:52:44');
 
 -- --------------------------------------------------------
 
@@ -216,7 +271,7 @@ CREATE TABLE `order_system` (
   `constituency_detail_from` enum('Constituency from 1','Constituency from 2','Constituency from 3','Constituency from 4') NOT NULL,
   `constituency_detail_to` enum('Constituency To 1','Constituency To 2','Constituency To 3','Constituency To 4') NOT NULL,
   `issued_by` enum('Self-Request','XYZ','VIP','Others') NOT NULL,
-  `letter_date` date DEFAULT NULL,
+  `letter_date` varchar(20) DEFAULT NULL,
   `remark` text DEFAULT NULL,
   `action_take` varchar(225) DEFAULT NULL,
   `document` varchar(225) DEFAULT NULL,
@@ -232,82 +287,44 @@ CREATE TABLE `order_system` (
 --
 
 INSERT INTO `order_system` (`id`, `type_of_request`, `received_through`, `concerned_department`, `subject`, `applicant_name`, `mobile_number`, `constituency_detail_from`, `constituency_detail_to`, `issued_by`, `letter_date`, `remark`, `action_take`, `document`, `created_at`, `updated_at`, `user_id`, `is_active`, `is_deleted`) VALUES
-(1, 'development_work', '', 'gfdgfd', 'gdfgdf', 'gdfgdf', '9876543215', 'Constituency from 1', 'Constituency To 3', 'VIP', '2020-10-12', 'gfdgdf', NULL, '', '2020-07-20 09:56:38', '2020-07-20 09:56:38', 0, 'Y', 'N'),
-(2, 'development_work', '', 'gfdgfd', 'gdfgdf', 'gdfgdf', '9876543215', 'Constituency from 1', 'Constituency To 3', 'VIP', '2020-10-12', 'gfdgdf', NULL, '', '2020-07-20 09:58:43', '2020-07-20 09:58:43', 0, 'Y', 'N');
+(1, 'development_work', 'do_letter', 'test', 'test', 'Amit', '91234567890', 'Constituency from 2', 'Constituency To 2', 'XYZ', '07/24/2020', 'test', NULL, '', '2020-07-21 01:22:29', '2020-07-21 01:22:29', 5, 'Y', 'N'),
+(3, 'transfer_adjustment', 'letter', 'Water', '', 'Amit Mishra', '1234567890', 'Constituency from 1', 'Constituency To 1', 'Self-Request', '07/25/2020', 'test', NULL, 'C:\\Project\\htdocs\\cmrefnic\\frontend/uploads/order_system/fedfdcb62d131e50e57d37acc442d8c9e506bc6d.jpeg', '2020-07-21 03:27:43', '2020-07-21 03:27:43', 5, 'Y', 'N');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `yii_process_flow`
+-- Table structure for table `process_flow_steps`
 --
 
-CREATE TABLE `yii_process_flow` (
-  `step_id` bigint(20) UNSIGNED NOT NULL,
-  `service_id` int(10) DEFAULT NULL,
-  `name` text DEFAULT NULL,
-  `discription` text DEFAULT NULL,
-  `step_action` text DEFAULT NULL,
-  `web_action` text DEFAULT NULL,
-  `role_id` int(10) DEFAULT NULL,
-  `sla_days` int(10) DEFAULT NULL,
-  `available_after_sla` varchar(10) DEFAULT NULL,
-  `can_update` varchar(10) DEFAULT NULL,
-  `updated` timestamp NULL DEFAULT NULL,
-  `created` timestamp NULL DEFAULT NULL,
-  `status` varchar(10) NOT NULL DEFAULT 'A',
-  `forward_action` varchar(255) DEFAULT NULL,
-  `disp_order` int(10) DEFAULT NULL,
-  `in_inbox` int(10) DEFAULT NULL,
-  `office_id` int(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `yii_process_flow`
---
-
-INSERT INTO `yii_process_flow` (`step_id`, `service_id`, `name`, `discription`, `step_action`, `web_action`, `role_id`, `sla_days`, `available_after_sla`, `can_update`, `updated`, `created`, `status`, `forward_action`, `disp_order`, `in_inbox`, `office_id`) VALUES
-(1, 1, 'Application Submit', 'user submit application by Fill Form', 'Application Submission', 'ordersystem/apply', NULL, 15, 'n', 'n', '2020-07-20 06:25:46', '2020-07-20 06:25:46', '1', NULL, 1, 1, NULL),
-(2, 1, 'Application is forwarded to DA', 'Application is forwarded to DA', 'Application is forwarded to DA', 'department/inbox', NULL, 15, 'n', 'n', '2020-07-20 06:25:46', '2020-07-20 06:25:46', '1', NULL, 1, 1, NULL),
-(3, 1, 'forwarded to Nodal officer', 'then forwarded to Nodal officer after\r\nscrutiny of the application by DA ', 'forwarded to Nodal officer', 'department/inbox', NULL, 15, 'n', 'n', '2020-07-20 06:25:46', '2020-07-20 06:25:46', '1', NULL, 1, 1, NULL),
-(4, 1, 'forwarded to Approver for Remarks', 'forwarded to Approver for Remarks', 'forwarded to Approver', 'department/inbox', NULL, 15, 'n', 'n', '2020-07-20 06:25:46', '2020-07-20 06:25:46', '1', NULL, 1, 1, NULL),
-(5, 1, 'forwarded for final approval ', 'forwarded for final approval ', 'forwarded to Approver for final approval ', 'department/inbox', NULL, 15, 'n', 'n', '2020-07-20 06:25:46', '2020-07-20 06:25:46', '1', NULL, 1, 1, NULL),
-(6, 1, 'generate the final copy of letter and send back to applicant', 'generate the final copy of letter and send back to applicant', 'generate the final copy of letter and send back to applicant', 'department/inbox', NULL, 15, 'n', 'n', '2020-07-20 06:25:46', '2020-07-20 06:25:46', '1', NULL, 1, 1, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `yii_process_flow_steps`
---
-
-CREATE TABLE `yii_process_flow_steps` (
+CREATE TABLE `process_flow_steps` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `process_step_id` int(10) DEFAULT NULL,
-  `next_process_id` int(10) DEFAULT NULL,
+  `from_role_id` int(10) DEFAULT NULL,
+  `to_role_id` int(10) DEFAULT NULL,
   `label` text DEFAULT NULL,
   `history_label` text DEFAULT NULL,
-  `created` timestamp NULL DEFAULT NULL
+  `created` timestamp NULL DEFAULT NULL,
+  `service_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `yii_process_flow_steps`
+-- Dumping data for table `process_flow_steps`
 --
 
-INSERT INTO `yii_process_flow_steps` (`id`, `process_step_id`, `next_process_id`, `label`, `history_label`, `created`) VALUES
-(1, 1, 2, 'application submited', 'application submited', '2020-07-20 08:35:21'),
-(2, 2, 3, 'Application is forwarded to DA', 'Application is forwarded to DA', '2020-07-20 08:35:21'),
-(3, 3, 4, 'forwarded to Nodal officer', 'forwarded to Nodal officer', '2020-07-20 08:36:20'),
-(4, 4, 5, 'Forwarded to Approver for Remarks', 'Forwarded to Approver for Remarks', '2020-07-20 08:36:59'),
-(5, 5, 6, 'forwarded for final approval', 'forwarded for final approval', '2020-07-20 08:36:59'),
-(6, 6, 7, 'generate the final copy of letter and send back to applicant', 'generate the final copy of letter and send back to applicant', '2020-07-20 08:36:59');
+INSERT INTO `process_flow_steps` (`id`, `from_role_id`, `to_role_id`, `label`, `history_label`, `created`, `service_id`) VALUES
+(1, 1, 2, 'Application is forwarded to DA', 'Application submited', '2020-07-20 08:35:21', 1),
+(2, 2, 3, 'forwarded to Nodal officer', 'Application is forwarded to DA', '2020-07-20 08:35:21', 1),
+(3, 3, 4, 'Forwarded to Approver for Remarks', 'forwarded to Nodal officer', '2020-07-20 08:36:20', 1),
+(4, 4, 5, 'Forwarded for final approval', 'Forwarded to Approver for Remarks', '2020-07-20 08:36:59', 1),
+(5, 5, 1, 'Approved', 'forwarded for final approval', '2020-07-20 08:36:59', 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `yii_services`
+-- Table structure for table `services`
 --
 
-CREATE TABLE `yii_services` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE `services` (
+  `service_id` bigint(20) UNSIGNED NOT NULL,
   `services` varchar(500) DEFAULT NULL,
   `short_name` varchar(255) DEFAULT NULL,
   `department` varchar(100) DEFAULT NULL,
@@ -323,15 +340,21 @@ CREATE TABLE `yii_services` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `yii_services`
+-- Dumping data for table `services`
 --
 
-INSERT INTO `yii_services` (`id`, `services`, `short_name`, `department`, `time_limit`, `service_model`, `created_by`, `created_date`, `updated_by`, `updated_date`, `status`, `validity_in_months`, `is_multiple`) VALUES
+INSERT INTO `services` (`service_id`, `services`, `short_name`, `department`, `time_limit`, `service_model`, `created_by`, `created_date`, `updated_by`, `updated_date`, `status`, `validity_in_months`, `is_multiple`) VALUES
 (1, 'Order System', 'order_system', 'Order System', 30, 'OrderSystem', '1', '2020-07-20 06:09:20', '2020-07-20 11:39:20', NULL, 'A', NULL, 1);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `application_forward_level`
+--
+ALTER TABLE `application_forward_level`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `mst_district`
@@ -384,29 +407,28 @@ ALTER TABLE `order_system`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `yii_process_flow`
+-- Indexes for table `process_flow_steps`
 --
-ALTER TABLE `yii_process_flow`
-  ADD PRIMARY KEY (`step_id`),
-  ADD UNIQUE KEY `step_id` (`step_id`);
-
---
--- Indexes for table `yii_process_flow_steps`
---
-ALTER TABLE `yii_process_flow_steps`
+ALTER TABLE `process_flow_steps`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- Indexes for table `yii_services`
+-- Indexes for table `services`
 --
-ALTER TABLE `yii_services`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id` (`id`);
+ALTER TABLE `services`
+  ADD PRIMARY KEY (`service_id`),
+  ADD UNIQUE KEY `id` (`service_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `application_forward_level`
+--
+ALTER TABLE `application_forward_level`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `mst_district`
@@ -424,7 +446,7 @@ ALTER TABLE `mst_notifications`
 -- AUTO_INCREMENT for table `mst_roles`
 --
 ALTER TABLE `mst_roles`
-  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `mst_social_media`
@@ -436,37 +458,31 @@ ALTER TABLE `mst_social_media`
 -- AUTO_INCREMENT for table `mst_user`
 --
 ALTER TABLE `mst_user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `mst_user_role_mapping`
 --
 ALTER TABLE `mst_user_role_mapping`
-  MODIFY `map_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `map_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `order_system`
 --
 ALTER TABLE `order_system`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `yii_process_flow`
+-- AUTO_INCREMENT for table `process_flow_steps`
 --
-ALTER TABLE `yii_process_flow`
-  MODIFY `step_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `yii_process_flow_steps`
---
-ALTER TABLE `yii_process_flow_steps`
+ALTER TABLE `process_flow_steps`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `yii_services`
+-- AUTO_INCREMENT for table `services`
 --
-ALTER TABLE `yii_services`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `services`
+  MODIFY `service_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
