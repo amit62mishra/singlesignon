@@ -10,7 +10,7 @@ $baseUrl='swcs';
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-    <title>HP-Single Window | Dashboard</title>
+    <title>CMREF NIC | Dashboard</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta name="keywords" content="Industries Department Himachal Pradesh, Mining in Himachal Pradesh, Mining Department of Himachal Pradesh, Single Window Industries Department" />
     <meta name="description" content="Industries Department Himachal Pradesh, Mining in Himachal Pradesh, Mining Department of Himachal Pradesh, Single Window Industries Department" />
@@ -41,8 +41,8 @@ $baseUrl='swcs';
     <div class="wrapper">
       <header class="main-header">
         <a href="<?= Url::to(['/backoffice/frontuser'])?>" class="logo">
-          <span class="logo-mini">HP-SWCS</span>
-          <span class="logo-lg">HP-Single Window</span>
+          <span class="logo-mini">CMREF-NIC</span>
+          <span class="logo-lg">CMREF-NIC</span>
         </a>
         <nav class="navbar navbar-static-top">
           <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -53,23 +53,37 @@ $baseUrl='swcs';
             <ul class="nav navbar-nav">
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-user"></i>
-                  <span class="hidden-xs">
-                    <?php  
-                        echo "Login";
-                    ?>
-                  </span>
-                </a>
-                    <ul class="dropdown-menu">
+                 
+                   <?php  
+                     if(Yii::$app->user->isGuest){ ?>
+                      <a href="<?=Url::to(['site/login'])?>" >
+                        <i class="fa fa-user"></i>
+                        <span class="hidden-xs">
+                          Login
+                        </span>
+                      </a>
+                   <?php  } else { ?>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-user"></i>
+                        <span class="hidden-xs">
+                          <?php echo Yii::$app->user->identity->user_name ?>
+                        </span>
+                      </a>
+                   <?php }    ?> 
+                <?php if(!Yii::$app->user->isGuest){ ?>
+                     <ul class="dropdown-menu">
                       <li class="user-footer">
                         
-                          <div class="pull-right">
-                            <a href="<?=@FRONT_BASEURL?>" class="btn bg-olive btn-flat">Home</a>
+                          <div class="pull-left">
+                            <a href="<?=Url::to(['Profile/user'])?>" class="btn btn-default btn-flat">Profile</a>
                           </div>
-                        
+                          <div class="pull-right">
+                            <a href="<?=Url::to(['site/logout'])?>" class="btn btn-default btn-flat">Sign out</a>
+                          </div> 
+                      
                       </li>
                     </ul>
+                      <?php } ?>
               </li>
               <!-- Control Sidebar Toggle Button -->
             </ul>

@@ -14,7 +14,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
-
+use frontend\models\OtherMisc;
 /**
  * Site controller
  */
@@ -45,7 +45,7 @@ class SiteController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => ['get'],
                 ],
             ],
         ];
@@ -74,7 +74,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $notificationType=base64_encode("ORDERS");
+        $notification=base64_encode("State");
+        if(isset($_GET['type']))
+            $notificationType=$_GET['type'];
+        if(isset($_GET['notification']))
+            $notification=$_GET['notification'];
+        return $this->render('index',["notificationType"=>$notificationType,"notification"=>$notification]);
     }
 
     /**
@@ -83,14 +89,15 @@ class SiteController extends Controller
      * @return mixed
      */
     public function actionLogin()
-    {
+    {  
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
-        }
-
+        } 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            
+            return $this->redirect(['application/index']);
+             
         } else {
             $model->password = '';
 
@@ -109,7 +116,7 @@ class SiteController extends Controller
     {
         Yii::$app->user->logout();
 
-        return $this->goHome();
+        return $this->redirect(['site/login']);
     }
 
     /**
@@ -142,7 +149,8 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
-        return $this->render('about');
+        $model=OtherMisc::find()->where(["is_active"=>"Y", "tag"=>"about_us"])->one();
+        return $this->render('about',["model"=>$model]);
     }
 
     /**
@@ -256,5 +264,40 @@ class SiteController extends Controller
         return $this->render('resendVerificationEmail', [
             'model' => $model
         ]);
+    }
+    /**
+    *@author Hemant Thakur
+    */
+    public function actionDashboard()
+    {
+       $report = new \app\reports\FakeNews;
+       $report->run();
+       return $this->render('report',array(
+           "report"=>$report
+       ));
+    }
+    /**
+    * @author Hemant Thakur
+    */
+    public function actionDistrictreport()
+    {
+       $report = new \app\reports\DistrictReport;
+       $report->run();
+       return $this->render('report',array(
+           "report"=>$report
+       ));
+    }
+    /**
+    * This function is used to list all the news
+    *@author HEmant thakur
+    */
+    public function actionListnews(){
+        $get=Yii::$app->request->get();
+        if(!isset($get['type']) || empty($get['type']))
+            throw new Exception("Forbidden Access",403);
+        $get=Yii::$app->utility->sanatizeParams($get);
+        $type=base64_decode($get['type']);
+        unset($get);
+        return $this->render("listNews",["type"=>$type]);
     }
 }

@@ -10,7 +10,7 @@ $baseUrl='swcs';
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-    <title>HP-Single Window | Dashboard</title>
+    <title>CMREF NIC | Dashboard</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta name="keywords" content="Industries Department Himachal Pradesh, Mining in Himachal Pradesh, Mining Department of Himachal Pradesh, Single Window Industries Department" />
     <meta name="description" content="Industries Department Himachal Pradesh, Mining in Himachal Pradesh, Mining Department of Himachal Pradesh, Single Window Industries Department" />
@@ -41,8 +41,8 @@ $baseUrl='swcs';
     <div class="wrapper">
       <header class="main-header">
         <a href="<?= Url::to(['/backoffice/frontuser'])?>" class="logo">
-          <span class="logo-mini">HP-SWCS</span>
-          <span class="logo-lg">HP-Single Window</span>
+          <span class="logo-mini">CMREF-NIC</span>
+          <span class="logo-lg">CMREF-NIC</span>
         </a>
         <nav class="navbar navbar-static-top">
           <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">

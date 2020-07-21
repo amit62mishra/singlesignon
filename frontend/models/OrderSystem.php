@@ -40,9 +40,9 @@ class OrderSystem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['type_of_request', 'received_through', 'concerned_department', 'subject', 'applicant_name', 'mobile_number', 'constituency_detail_from', 'constituency_detail_to', 'issued_by', 'user_id','letter_date','remark','action_take','document'], 'required'],
-            [['type_of_request', 'received_through', 'subject', 'constituency_detail_from', 'constituency_detail_to', 'issued_by', 'is_active', 'is_deleted'], 'string'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['type_of_request,received_through,concerned_department,subject,applicant_name,mobile_number,constituency_detail_from,constituency_detail_to,issued_by,user_id','letter_date','remark','action_take','document'], 'required'],
+            [['type_of_request,received_through,subject,constituency_detail_from,constituency_detail_to,issued_by,is_active,is_deleted'], 'string'],
+            [['created_at,updated_at'], 'safe'],
             [['user_id'], 'integer'],
             [['concerned_department'], 'string', 'max' => 100],
             [['applicant_name'], 'string', 'max' => 225],

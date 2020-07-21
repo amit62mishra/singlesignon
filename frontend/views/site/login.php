@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-12 col-lg-12">
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+                <?= $form->field($model, 'user_name')->textInput(['autofocus' => true]) ?>
 
                 <?= $form->field($model, 'password')->passwordInput() ?>
                 <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
