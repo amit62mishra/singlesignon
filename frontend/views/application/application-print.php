@@ -9,8 +9,6 @@ use frontend\models\ReceivedThrough;;
 use frontend\models\IssuedBy;;
 use frontend\models\Departments;  
 use frontend\models\Districts;  
-use frontend\models\ApplicationDocument;  
-use frontend\models\purpose;  
 use frontend\models\ConstituencyDetails;  
 use yii\helpers\ArrayHelper;   
 use yii\web\View;  
@@ -21,8 +19,6 @@ $IssuedBy =  ArrayHelper::map(IssuedBy::find('id', 'name')->orderBy('name')->all
 $Departments =  ArrayHelper::map(Departments::find('dept_id', 'department_name')->orderBy('department_name')->all(), 'dept_id', 'department_name'); 
 $Districts =  ArrayHelper::map(Districts::find('district_id', 'district_name')->orderBy('district_name')->all(), 'district_id', 'district_name');
 $ConstituencyDetails =  ArrayHelper::map(ConstituencyDetails::find('id', 'name')->orderBy('name')->all(), 'id', 'name');
-$purpose =  ArrayHelper::map(purpose::find('id', 'name')->orderBy('name')->all(), 'id', 'name');
-$documents =  ApplicationDocument::find()->where(['application_id'=>$model->id])->all();
 ?>
 <style type="text/css">
   .form-group {
@@ -65,7 +61,7 @@ $documents =  ApplicationDocument::find()->where(['application_id'=>$model->id])
                                 ['prompt' => 'Select', 'class' => 'form-control','readonly'=>true]) ?>
 	    		</div>
 	    		<div class="col-md-6">
-	    			  <?= $form->field($model, 'purpose')->dropDownList($purpose,['maxlength' => true,'readonly'=>true]) ?> 
+	    			  <?= $form->field($model, 'subject')->textInput(['maxlength' => true,'readonly'=>true]) ?> 
 	    		</div>
 	    	</div>
 	    	<div class="row">
@@ -105,7 +101,7 @@ $documents =  ApplicationDocument::find()->where(['application_id'=>$model->id])
 	    	<div class="row">
 	    		<div class="col-md-6">
 	    			  <?= $form->field($model, 'issued_by')->dropDownList($IssuedBy, 
-                                ['prompt' => 'Select', 'class' => 'form-control','readonly'=>true]) ?>   
+                                ['prompt' => 'Select', 'class' => 'form-control']) ?>   
 	    		</div>
 				<div class="col-md-6">
 					  <?php if($model->document !='' && $model->document != null) { ?>
@@ -124,105 +120,12 @@ $documents =  ApplicationDocument::find()->where(['application_id'=>$model->id])
 	    		</div>
 	    	</div>
 
-	    	<div class="row">
-	    		<div class="col-md-12"><label>Documents</label></div>
-	    		<div class="col-md-12">
-	    			<table class="table table-bordered table-striped table-condensed dform" data-value="<?= count($documents) - 1; ?>" data-remove="0">
-			                <thead>
-			                    <tr> 
-			                        <th>S.No</th> 
-			                        <th>Name:</th>
-			                        <th> Document :</th> 
-			                        
-			                    </tr>
-			                </thead>
-			                <tbody>
-			                	<?php foreach ($documents as $key => $document) {  ?>
-			                	<tr>
-			                		<td><?=$key+1?></td>
-			                		<td><?=$document->name?></td>
-			                		<td>
-			                			
-			                			<label><a href="<?='swcs/uploads/'.$document->document?>" download="">Click here</a> to download</label>
-			                		</td>
-			                	</tr>
-			                	<?php } ?>
-			                </tbody>
-			            </table>
-			        </div>
-			    </div>
- 
 	        <!-- <div class="form-group">
 	            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary','align'=>'center']) ?>
 	        </div> -->
 	    <?php ActiveForm::end(); ?>
 
 	</div><!-- application-index -->
-	</section>
-	<section class="content-header">
-    <h1>Process History</h3> <br>
-   </section>
-	<section>
-		<div class="divTable col-md-12">
-			<div class="box-footer"> 
-             <table class="table table-bordered" style="">
-                    
-                    <thead>
-                        <tr style="">
-                            <th>S.NO</th> 
-                            <th>Pending With</th> 
-                            <th>Date</th>   
-                            <th>Comment</th>  
-                            <th>Processed</th>  
-                        </tr>
-                    </thead>
-                    <?php foreach ($history as $key => $value): ?>
-                        
-                    
-                    <tbody>
-                       <td><?=$key+1?></td> 
-                       <td><span style="color:green"><?=$value->roleName->role_name?></span></td> 
-                       <td><?=$value->created_on?></td> 
-                       <td><?=$value->comment?></td>  
-                       <td><?php if($value->comment==null) echo "NO"; else echo "YES";?></td>  
-                    </tbody>
-
-                    <?php endforeach ?>
-             </table>
-             </div>   
-        </div> 
-
-	  
-	</section>
-	</section>
-	<section class="content-header">
-    <h1>.</h3> <br>
-   </section>
-<?php 
-$checkRole = UserRoles::find()->where(['user_id'=>Yii::$app->user->identity->user_id])->one();
-if(!empty($checkWithMe) && $checkRole->role_id != 1) { ?>  
-<section class="content-header">
-  <h1>Department use Only</h3> <br>
-</section>
-	<section>
-
-		<div class="application-index box-footer box-danger">
-			
-	    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
-	    	  
-	    	<div class="row">
-	    		 
-				<div class="col-md-12">
-	    			  <?= $form->field($forwardLevel, 'comment')->textarea(['rows' => '3']) ?>
-	    		</div>	    		
-	    	</div>
-	    
-	        <div class="form-group " align="center">
-	            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
-	        </div> 
-	    <?php ActiveForm::end(); ?>
-
-	</div><!-- application-index -->
-	</section>
-<?php } ?>	
+	</section> 
+ 
 </div>

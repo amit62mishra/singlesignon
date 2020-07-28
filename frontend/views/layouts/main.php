@@ -116,6 +116,7 @@ $baseUrl='swcs';
                 ?>
       })
     </script>
+    
     <script src="<?=$baseUrl?>/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="<?=$baseUrl?>/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
     <script src="<?=$baseUrl?>/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
@@ -133,6 +134,7 @@ $baseUrl='swcs';
     <script src="<?=$baseUrl?>/bower_components/PACE/pace.min.js"></script>
     <script src="<?=$baseUrl?>/plugins/iCheck/icheck.min.js"></script>
     <script src="<?=$baseUrl?>/js/style.js"></script>
+    
     <script type="text/javascript">
       $(function () {
         $('.textarea').wysihtml5();

@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <style type="text/css">
     .site-login{
-        /*width: 40%;*/
+        /*width: 40%;*/ 
         margin: 50px auto 0;
         border: 1px solid #656565;
         border-radius: 8px;

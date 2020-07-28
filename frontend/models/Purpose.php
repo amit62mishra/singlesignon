@@ -7,19 +7,17 @@ use yii\base\Model;
 /**
  * This is the model class for table "order_system".
  *
- * @property int $role_id
- * @property int $is_active
- * @property int $is_deleted
- * @property int $role_name 
+ * @property int $name
+ * @property int $value 
  */
-class ConstituencyDetails extends \yii\db\ActiveRecord
+class Purpose extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'mst_constituency_details';
+        return 'mst_purpose';
     }
 
     /**
@@ -28,7 +26,7 @@ class ConstituencyDetails extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['type','name','type_of_request'], 'required'],
+            [['name','value','type_of_request'], 'required'],
            
         ];
     }
@@ -39,10 +37,9 @@ class ConstituencyDetails extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'type' => 'Type',
-            'name' => 'Name', 
-            'district_id' => 'District id', 
+            'role_id' => 'ID',
+            'name' => 'Name',
+            'value' => 'Value',  
         ];
     }
  

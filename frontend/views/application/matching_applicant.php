@@ -25,14 +25,8 @@ use frontend\models\UserRoles;
    <div class="box-footer box-danger">
     <?php 
     $checkRole = UserRoles::find()->where(['user_id'=>Yii::$app->user->identity->user_id])->one();
-if($checkRole->role_id == 1) { 
-$remaining = (Yii::$app->user->identity->total_application) - count($all);
-  ?> 
-  <span style="color:red">Application Remaining :  <?=$remaining?> </span>
-  <?php if($remaining >0){ ?>
-    <a href="<?=$url = Url::to(['application/form']);?>" class="btn btn-sm bg-maroon pull-right">Application Form </a>
-  <?php } ?>
-      
+if($checkRole->role_id == 1) { ?> 
+      <a href="<?=$url = Url::to(['application/form']);?>" class="btn btn-sm bg-maroon pull-right">Application Form </a>
 <?php } ?>      
     <br>
     <br>
@@ -47,6 +41,7 @@ $remaining = (Yii::$app->user->identity->total_application) - count($all);
                                             <th>S.NO</th> 
                                             <th>Type Of Request</th> 
                                             <th>Received Through</th>   
+                                            <th>Subject</th>
                                             <th>Applicant Name</th>
                                             <th>Mobile No</th> 
                                             <th>View</th>
@@ -57,8 +52,9 @@ $remaining = (Yii::$app->user->identity->total_application) - count($all);
                                     
                                     <tbody>
                                        <td><?=$key+1?></td> 
-                                       <td><?=$value->request->name?></td> 
-                                       <td><?=$value->received->name?></td>  
+                                       <td><?=$value->type_of_request?></td> 
+                                       <td><?=$value->received_through?></td> 
+                                       <td><?=$value->subject?></td> 
                                        <td><?=$value->applicant_name?></td> 
                                        <td><?=$value->mobile_number?></td> 
                                        <td><a href="<?= Url::toRoute(['application/view','id'=>$value->id])?>" class="btn btn-sm btn-primary" ><i class="fa fa-eye" aria-hidden="true" ></i></a></td> 
@@ -92,6 +88,7 @@ $remaining = (Yii::$app->user->identity->total_application) - count($all);
                                             <th>S.NO</th> 
                                             <th>Type Of Request</th> 
                                             <th>Received Through</th>   
+                                            <th>Subject</th>
                                             <th>Applicant Name</th>
                                             <th>Mobile No</th> 
                                             <th>View</th>
@@ -99,11 +96,12 @@ $remaining = (Yii::$app->user->identity->total_application) - count($all);
                                     </thead>
                                     <?php foreach ($all as $key => $value): ?>
                                         
-                                    <?php //echo "<pre>";  print_r($value); die; ?>
+                                    
                                     <tbody>
                                        <td><?=$key+1?></td> 
-                                       <td><?=$value->request->name?></td> 
-                                       <td><?=$value->received->name?></td> 
+                                       <td><?=$value->type_of_request?></td> 
+                                       <td><?=$value->received_through?></td> 
+                                       <td><?=$value->subject?></td> 
                                        <td><?=$value->applicant_name?></td> 
                                        <td><?=$value->mobile_number?></td> 
                                        <td><a href="<?= Url::toRoute(['application/view','id'=>$value->id])?>" class="btn btn-sm btn-primary" ><i class="fa fa-eye" aria-hidden="true" ></i></a></td> 

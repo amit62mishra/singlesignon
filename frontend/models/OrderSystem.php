@@ -3,8 +3,10 @@
 namespace frontend\models;
 
 use Yii;
-use yii\base\Model;
+ 
 use yii\web\UploadedFile;
+
+use common\models\User;
 /**
  * This is the model class for table "order_system".
  *
@@ -15,8 +17,8 @@ use yii\web\UploadedFile;
  * @property string $subject
  * @property string $applicant_name
  * @property string $mobile_number
- * @property int $constituency_detail_from
- * @property int $constituency_detail_to
+ * @property string $constituency_detail_from
+ * @property string $constituency_detail_to
  * @property string $issued_by
  * @property string $created_at
  * @property string|null $updated_at
@@ -40,14 +42,14 @@ class OrderSystem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['type_of_request,received_through,concerned_department,subject,applicant_name,mobile_number,constituency_detail_from,constituency_detail_to,issued_by,user_id','letter_date','remark','action_take','document','district_id'], 'required'],
-            [['type_of_request,received_through,subject,issued_by,is_active,is_deleted'], 'string'],
-            [['created_at,updated_at'], 'safe'],
-            [['user_id'], 'integer'],
-            [['concerned_department'], 'string', 'max' => 100],
+            [['type_of_request','received_through','concerned_department','purpose','applicant_name','mobile_number','constituency_detail_from','issued_by','user_id','letter_date','remark','district_id'], 'required'], 
             [['applicant_name'], 'string', 'max' => 225],
-            [['mobile_number'], 'string', 'max' => 20],
-            [['document'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
+            [['mobile_number'], 'string', 'max' => 20], 
+            ['constituency_detail_to', 'required', 'when' => function($model) {
+
+            return $model->type_of_request == 3;
+
+            }],
         ];
     }
 
@@ -61,7 +63,7 @@ class OrderSystem extends \yii\db\ActiveRecord
             'type_of_request' => 'Type Of Request',
             'received_through' => 'Received Through',
             'concerned_department' => 'Concerned Department',
-            'subject' => 'Subject',
+            'purpose' => 'Purpose',
             'applicant_name' => 'Applicant Name',
             'mobile_number' => 'Mobile Number',
             'constituency_detail_from' => 'Constituency Detail From',
@@ -85,5 +87,24 @@ class OrderSystem extends \yii\db\ActiveRecord
         } else {
             return false;
         }
+    }
+
+    public function getPurpose()
+    {
+        return $this->hasOne(Purpose::className(), ['id' => 'purpose']);
+    }
+
+    public function getRequest()
+    {
+        return $this->hasOne(TypeOfRequest::className(), ['id' => 'type_of_request']);
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['user_id' => 'user_id']);
+    }
+    public function getReceived()
+    {
+        return $this->hasOne(ReceivedThrough::className(), ['id' => 'received_through']);
     }
 }
