@@ -15,8 +15,8 @@ use yii\web\UploadedFile;
  * @property string $subject
  * @property string $applicant_name
  * @property string $mobile_number
- * @property string $constituency_detail_from
- * @property string $constituency_detail_to
+ * @property int $constituency_detail_from
+ * @property int $constituency_detail_to
  * @property string $issued_by
  * @property string $created_at
  * @property string|null $updated_at
@@ -40,8 +40,8 @@ class OrderSystem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['type_of_request,received_through,concerned_department,subject,applicant_name,mobile_number,constituency_detail_from,constituency_detail_to,issued_by,user_id','letter_date','remark','action_take','document'], 'required'],
-            [['type_of_request,received_through,subject,constituency_detail_from,constituency_detail_to,issued_by,is_active,is_deleted'], 'string'],
+            [['type_of_request,received_through,concerned_department,subject,applicant_name,mobile_number,constituency_detail_from,constituency_detail_to,issued_by,user_id','letter_date','remark','action_take','document','district_id'], 'required'],
+            [['type_of_request,received_through,subject,issued_by,is_active,is_deleted'], 'string'],
             [['created_at,updated_at'], 'safe'],
             [['user_id'], 'integer'],
             [['concerned_department'], 'string', 'max' => 100],
@@ -72,6 +72,7 @@ class OrderSystem extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
             'is_active' => 'Is Active',
             'is_deleted' => 'Is Deleted',
+            'district_id' => 'District',
         ];
     }
 

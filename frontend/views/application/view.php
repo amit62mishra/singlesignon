@@ -4,9 +4,21 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\Url; 
 use frontend\models\UserRoles;
-/* @var $this yii\web\View */
-/* @var $model app\models\ordersystem */
-/* @var $form ActiveForm */
+use frontend\models\TypeOfRequest;;
+use frontend\models\ReceivedThrough;;
+use frontend\models\IssuedBy;;
+use frontend\models\Departments;  
+use frontend\models\Districts;  
+use frontend\models\ConstituencyDetails;  
+use yii\helpers\ArrayHelper;   
+use yii\web\View;  
+
+$TypeOfRequest =  ArrayHelper::map(TypeOfRequest::find('id', 'name')->orderBy('name')->all(), 'id', 'name');
+$ReceivedThrough =  ArrayHelper::map(ReceivedThrough::find('id', 'name')->orderBy('name')->all(), 'id', 'name');
+$IssuedBy =  ArrayHelper::map(IssuedBy::find('id', 'name')->orderBy('name')->all(), 'id', 'name'); 
+$Departments =  ArrayHelper::map(Departments::find('dept_id', 'department_name')->orderBy('department_name')->all(), 'dept_id', 'department_name'); 
+$Districts =  ArrayHelper::map(Districts::find('district_id', 'district_name')->orderBy('district_name')->all(), 'district_id', 'district_name');
+$ConstituencyDetails =  ArrayHelper::map(ConstituencyDetails::find('id', 'name')->orderBy('name')->all(), 'id', 'name');
 ?>
 <style type="text/css">
   .form-group {
@@ -33,18 +45,20 @@ use frontend\models\UserRoles;
 			
 	    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 	    	<div class="row">
-	    		<div class="col-md-6">
-	    			 
-	    			  <?= $form->field($model, 'type_of_request')->dropDownList([''=>'Select Request Type','transfer_adjustment' => 'Transfer/ Adjustment','development_work' => 'Development Work','financial_assistance' => 'Financial Assistance','complaint_inquiry'=>'Complaint/ Inquiry','other'=>'Others'],['readonly'=>true]) ?>
+	    		<div class="col-md-6">  
+	    			  <?= $form->field($model, 'type_of_request')->dropDownList($TypeOfRequest, 
+                                ['prompt' => 'Select', 'class' => 'form-control','readonly'=>true]) ?>
 	    		  
 	    	    </div>
 	    		<div class="col-md-6">
-	    			  <?= $form->field($model, 'received_through')->dropDownList([''=>'Select ','letter' => 'Letter','do_letter' => 'DO Letter','email' => 'Email','others'=>'Others'],['readonly'=>true]) ?>
+	    			  <?= $form->field($model, 'received_through')->dropDownList($ReceivedThrough, 
+                                ['prompt' => 'Select', 'class' => 'form-control','readonly'=>true]) ?>
 	    		</div>
 	    	</div>
 	    	<div class="row">
 	    		<div class="col-md-6">
-	    			  <?= $form->field($model, 'concerned_department')->textInput(['maxlength' => true,'readonly'=>true]) ?>
+	    			  <?= $form->field($model, 'concerned_department')->dropDownList($Departments, 
+                                ['prompt' => 'Select', 'class' => 'form-control','readonly'=>true]) ?>
 	    		</div>
 	    		<div class="col-md-6">
 	    			  <?= $form->field($model, 'subject')->textInput(['maxlength' => true,'readonly'=>true]) ?> 
@@ -61,28 +75,36 @@ use frontend\models\UserRoles;
 	    	</div>
 
 	    	<div class="row">
+			    	<div class="col-md-6">
+			    			<?= $form->field($model, 'letter_date')->textInput(['maxlength' => true,'class'=>'datepicker form-control','readonly'=>true])  ?> 
+			    	</div>
+			    	<div class="col-md-6">
+			    			<?= $form->field($model, 'district_id')->dropDownList($Districts, 
+                                ['prompt' => 'Select', 'class' => 'form-control','readonly'=>true]) ?>
+			    	</div>
+	    	</div>	
+
+	    	<div class="row">
 	    		<div class="col-md-6">	
-	    			 <?= $form->field($model, 'constituency_detail_from')->dropDownList([''=>'Select ','Constituency from 1' => 'Constituency from 1','Constituency from 2' => 'Constituency from 2','Constituency from 3' => 'Constituency from 3','Constituency from 4'=>'Constituency from 4'],['readonly'=>true]) ?>   
+	    			 <?= $form->field($model, 'constituency_detail_from')->dropDownList($ConstituencyDetails, 
+                                ['prompt' => 'Select', 'class' => 'form-control','readonly'=>true]) ?>
 	    		</div>
 	    		<div class="col-md-6">	
-	    			  <?= $form->field($model, 'constituency_detail_to')->dropDownList([''=>'Select ','Constituency TO 1' => 'Constituency TO 1','Constituency TO 2' => 'Constituency TO 2','Constituency TO 3' => 'Constituency TO 3','Constituency TO 4'=>'Constituency TO 4'],['readonly'=>true]) ?>   
+	    			  <?= $form->field($model, 'constituency_detail_to')->dropDownList($ConstituencyDetails, 
+                                ['prompt' => 'Select', 'class' => 'form-control','readonly'=>true]) ?>
 	    		</div>
 	    	</div>
 
+	    	
+
+	    	
 	    	<div class="row">
 	    		<div class="col-md-6">
-	    			<?= $form->field($model, 'letter_date')->textInput(['maxlength' => true,'class'=>'datepicker form-control','readonly'=>true])  ?> 
-	    		</div>
-	    		<div class="col-md-6">
-	    			  <?= $form->field($model, 'remark')->textarea(['rows' => '3','readonly'=>true]) ?>
-	    		</div>
-	    	</div>
-	    	<div class="row">
-	    		<div class="col-md-6">
-	    			  <?= $form->field($model, 'issued_by')->dropDownList([''=>'Select ','Self-Request' => 'Self-Request','XYZ' => 'XYZ','VIP' => 'VIP','Others'=>'Others'],['readonly'=>true]) ?>   
+	    			  <?= $form->field($model, 'issued_by')->dropDownList($IssuedBy, 
+                                ['prompt' => 'Select', 'class' => 'form-control']) ?>   
 	    		</div>
 				<div class="col-md-6">
-					<?php if($model->document !='' && $model->document != null) { ?>
+					  <?php if($model->document !='' && $model->document != null) { ?>
 						<br>
 						<br>
 						<label>Download Document</label>
@@ -90,14 +112,21 @@ use frontend\models\UserRoles;
 					<?php } ?>
 				</div>	    		
 	    	</div>
-	    <!-- 
-	        <div class="form-group">
-	            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+	    	
+	    	<div class="row">
+	    		
+	    		<div class="col-md-6">
+	    			  <?= $form->field($model, 'remark')->textarea(['rows' => '4','readonly'=>true]) ?>
+	    		</div>
+	    	</div>
+
+	        <!-- <div class="form-group">
+	            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary','align'=>'center']) ?>
 	        </div> -->
 	    <?php ActiveForm::end(); ?>
 
 	</div><!-- application-index -->
-</section>
+	</section>
 	<section class="content-header">
     <h1>Process History</h3> <br>
    </section>

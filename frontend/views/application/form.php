@@ -2,11 +2,20 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\helpers\Url; 
-
-/* @var $this yii\web\View */
-/* @var $model app\models\ordersystem */
-/* @var $form ActiveForm */
+use yii\helpers\Url; ;
+use frontend\models\TypeOfRequest;;
+use frontend\models\ReceivedThrough;;
+use frontend\models\IssuedBy;;
+use frontend\models\Departments;  
+use frontend\models\Districts;  
+use yii\helpers\ArrayHelper;   
+use yii\web\View;  
+ 
+$TypeOfRequest =  ArrayHelper::map(TypeOfRequest::find('id', 'name')->orderBy('name')->all(), 'id', 'name');
+$ReceivedThrough =  ArrayHelper::map(ReceivedThrough::find('id', 'name')->orderBy('name')->all(), 'id', 'name');
+$IssuedBy =  ArrayHelper::map(IssuedBy::find('id', 'name')->orderBy('name')->all(), 'id', 'name'); 
+$Departments =  ArrayHelper::map(Departments::find('dept_id', 'department_name')->orderBy('department_name')->all(), 'dept_id', 'department_name'); 
+$Districts =  ArrayHelper::map(Districts::find('district_id', 'district_name')->orderBy('district_name')->all(), 'district_id', 'district_name');
 ?>
 <style type="text/css">
   .form-group {
@@ -33,18 +42,20 @@ use yii\helpers\Url;
 			
 	    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 	    	<div class="row">
-	    		<div class="col-md-6">
-	    			 
-	    			  <?= $form->field($model, 'type_of_request')->dropDownList([''=>'Select Request Type','transfer_adjustment' => 'Transfer/ Adjustment','development_work' => 'Development Work','financial_assistance' => 'Financial Assistance','complaint_inquiry'=>'Complaint/ Inquiry','other'=>'Others']) ?>
+	    		<div class="col-md-6">  
+	    			  <?= $form->field($model, 'type_of_request')->dropDownList($TypeOfRequest, 
+                                ['prompt' => 'Select', 'class' => 'form-control']) ?>
 	    		  
 	    	    </div>
 	    		<div class="col-md-6">
-	    			  <?= $form->field($model, 'received_through')->dropDownList([''=>'Select ','letter' => 'Letter','do_letter' => 'DO Letter','email' => 'Email','others'=>'Others']) ?>
+	    			  <?= $form->field($model, 'received_through')->dropDownList($ReceivedThrough, 
+                                ['prompt' => 'Select', 'class' => 'form-control']) ?>
 	    		</div>
 	    	</div>
 	    	<div class="row">
 	    		<div class="col-md-6">
-	    			  <?= $form->field($model, 'concerned_department')->textInput(['maxlength' => true]) ?>
+	    			  <?= $form->field($model, 'concerned_department')->dropDownList($Departments, 
+                                ['prompt' => 'Select', 'class' => 'form-control']) ?>
 	    		</div>
 	    		<div class="col-md-6">
 	    			  <?= $form->field($model, 'subject')->textInput(['maxlength' => true]) ?> 
@@ -61,33 +72,46 @@ use yii\helpers\Url;
 	    	</div>
 
 	    	<div class="row">
+			    	<div class="col-md-6">
+			    			<?= $form->field($model, 'letter_date')->textInput(['maxlength' => true,'class'=>'datepicker form-control'])  ?> 
+			    	</div>
+			    	<div class="col-md-6">
+			    			<?= $form->field($model, 'district_id')->dropDownList($Districts, 
+                                ['prompt' => 'Select', 'class' => 'form-control']) ?>
+			    	</div>
+	    	</div>	
+
+	    	<div class="row">
 	    		<div class="col-md-6">	
-	    			 <?= $form->field($model, 'constituency_detail_from')->dropDownList([''=>'Select ','Constituency from 1' => 'Constituency from 1','Constituency from 2' => 'Constituency from 2','Constituency from 3' => 'Constituency from 3','Constituency from 4'=>'Constituency from 4']) ?>   
+	    			 <?= $form->field($model, 'constituency_detail_from')->dropDownList([''=>'Select District First']) ?>   
 	    		</div>
 	    		<div class="col-md-6">	
-	    			  <?= $form->field($model, 'constituency_detail_to')->dropDownList([''=>'Select ','Constituency TO 1' => 'Constituency TO 1','Constituency TO 2' => 'Constituency TO 2','Constituency TO 3' => 'Constituency TO 3','Constituency TO 4'=>'Constituency TO 4']) ?>   
+	    			  <?= $form->field($model, 'constituency_detail_to')->dropDownList([''=>'Select District First']) ?>   
 	    		</div>
 	    	</div>
 
+	    	
+
+	    	
 	    	<div class="row">
 	    		<div class="col-md-6">
-	    			<?= $form->field($model, 'letter_date')->textInput(['maxlength' => true,'class'=>'datepicker form-control'])  ?> 
-	    		</div>
-	    		<div class="col-md-6">
-	    			  <?= $form->field($model, 'remark')->textarea(['rows' => '3']) ?>
-	    		</div>
-	    	</div>
-	    	<div class="row">
-	    		<div class="col-md-6">
-	    			  <?= $form->field($model, 'issued_by')->dropDownList([''=>'Select ','Self-Request' => 'Self-Request','XYZ' => 'XYZ','VIP' => 'VIP','Others'=>'Others']) ?>   
+	    			  <?= $form->field($model, 'issued_by')->dropDownList($IssuedBy, 
+                                ['prompt' => 'Select', 'class' => 'form-control']) ?>   
 	    		</div>
 				<div class="col-md-6">
 					  <?= $form->field($model, 'document')->fileInput(["class"=>"form-control","accept"=>"image/x-png,image/gif,image/jpeg"]) ?>
 				</div>	    		
 	    	</div>
-	    
+	    	
+	    	<div class="row">
+	    		
+	    		<div class="col-md-6">
+	    			  <?= $form->field($model, 'remark')->textarea(['rows' => '4']) ?>
+	    		</div>
+	    	</div>
+
 	        <div class="form-group">
-	            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+	            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary','align'=>'center']) ?>
 	        </div>
 	    <?php ActiveForm::end(); ?>
 
@@ -95,3 +119,32 @@ use yii\helpers\Url;
 	</section>
 	
 </div>
+
+<script type="text/javascript">
+	
+	jQuery(document).ready(function(){ 
+     
+    jQuery("#ordersystem-district_id").change(function(){ 
+       
+        jQuery.get('<?= Url::toRoute('/application/constituency-from') ?>', { 
+                id: jQuery(this).val() } )
+                .done(function( data ) {
+                        jQuery( "#ordersystem-constituency_detail_from" ).html( data ); 
+                    }
+                );
+     
+    });
+
+    jQuery("#ordersystem-constituency_detail_from").change(function(){ 
+        
+         jQuery.get('<?= Url::toRoute('/application/constituency-to') ?>', { 
+                id: jQuery( "#ordersystem-district_id" ).val() } )
+                .done(function( data2 ) {
+                        jQuery( "#ordersystem-constituency_detail_to" ).html( data2 ); 
+                    }
+                );        
+    });
+});
+
+</script>
+ 

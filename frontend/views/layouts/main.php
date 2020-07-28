@@ -12,8 +12,8 @@ $baseUrl='swcs';
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <title>CMREF NIC | Dashboard</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <meta name="keywords" content="Industries Department Himachal Pradesh, Mining in Himachal Pradesh, Mining Department of Himachal Pradesh, Single Window Industries Department" />
-    <meta name="description" content="Industries Department Himachal Pradesh, Mining in Himachal Pradesh, Mining Department of Himachal Pradesh, Single Window Industries Department" />
+    <meta name="keywords" content="CMREF-NIC" />
+    <meta name="description" content="CMREF-NIC" />
     <link rel="stylesheet" href="<?=$baseUrl?>/css/style.css">
     <link rel="stylesheet" href="<?=$baseUrl?>/css/steps.css">
     <link rel="stylesheet" href="<?=$baseUrl?>/css/skins/_all-skins.min.css">
@@ -99,9 +99,9 @@ $baseUrl='swcs';
       </div>
       <footer class="main-footer">
         <div class="float-right d-none d-sm-block" style="float: right;">
-          <a href=""><b>Version</b> 2.1</a>
+          <a href=""><b>Version</b>1.0</a>
         </div>
-        <strong><a href="http://emerginghimachal.hp.gov.in">Department of Industries</a> &copy; 2020.</strong>
+        <strong><a href="http://emerginghimachal.hp.gov.in">CMREF-NIC</a> &copy; 2020.</strong>
         reserved.
       </footer>
     </div>

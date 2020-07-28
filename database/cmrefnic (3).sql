@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 21, 2020 at 12:11 PM
+-- Generation Time: Jul 28, 2020 at 06:34 AM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.1.33
 
@@ -21,6 +21,28 @@ SET time_zone = "+00:00";
 --
 -- Database: `cmrefnic`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `application_documents`
+--
+
+CREATE TABLE `application_documents` (
+  `document_id` int(11) NOT NULL,
+  `application_id` int(11) NOT NULL,
+  `document` text NOT NULL,
+  `name` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `application_documents`
+--
+
+INSERT INTO `application_documents` (`document_id`, `application_id`, `document`, `name`) VALUES
+(1, 47, '47_1595831378_upload_anil.jpg', 'anil.jpg'),
+(2, 48, '48_1595831433_upload_anil.jpg', 'anil.jpg'),
+(3, 48, '48_1595831433_upload_anil.jpg', 'anil.jpg');
 
 -- --------------------------------------------------------
 
@@ -44,25 +66,14 @@ CREATE TABLE `application_forward_level` (
 --
 
 INSERT INTO `application_forward_level` (`id`, `next_role_id`, `application_id`, `comment`, `created_on`, `updated_date_time`, `ip_address`, `status`) VALUES
-(4, 2, 1, 'TO Nodal', '2020-07-21 06:52:29', '0000-00-00 00:00:00', '::1', 'P'),
-(6, 3, 1, 'Sent To Approver', '2020-07-21 07:41:55', '0000-00-00 00:00:00', '::1', 'P'),
-(8, 4, 1, 'Sent To final Approver', '2020-07-21 08:38:51', '0000-00-00 00:00:00', '::1', 'P'),
-(9, 5, 1, 'Approved', '2020-07-21 08:40:51', '0000-00-00 00:00:00', '::1', 'P'),
-(10, 1, 1, NULL, '2020-07-21 08:41:51', '0000-00-00 00:00:00', '::1', 'P'),
-(11, 2, 3, 'Forwarded to Nodal', '2020-07-21 08:57:43', '0000-00-00 00:00:00', '::1', 'P'),
-(12, 3, 3, 'Forwarded to Approver', '2020-07-21 09:13:42', '0000-00-00 00:00:00', '::1', 'P'),
-(13, 4, 3, 'Forwarded to Final Approver', '2020-07-21 09:15:23', '0000-00-00 00:00:00', '::1', 'P'),
-(14, 5, 3, 'Approved', '2020-07-21 09:16:35', '0000-00-00 00:00:00', '::1', 'P'),
-(15, 1, 3, NULL, '2020-07-21 09:17:19', '0000-00-00 00:00:00', '::1', 'P'),
-(16, 2, 4, NULL, '2020-07-21 12:01:58', '0000-00-00 00:00:00', '::1', 'P'),
-(17, 2, 5, NULL, '2020-07-21 12:02:21', '0000-00-00 00:00:00', '::1', 'P'),
-(18, 2, 6, 'forwarded to nodal ', '2020-07-21 12:06:45', '0000-00-00 00:00:00', '::1', 'P'),
-(19, 3, 6, 'ok', '2020-07-21 12:10:39', '0000-00-00 00:00:00', '::1', 'P'),
-(20, 4, 6, NULL, '2020-07-21 12:12:24', '0000-00-00 00:00:00', '::1', 'P'),
-(21, 2, 7, NULL, '2020-07-21 15:25:10', '0000-00-00 00:00:00', '::1', 'P'),
-(22, 2, 8, NULL, '2020-07-21 15:35:05', '0000-00-00 00:00:00', '::1', 'P'),
-(23, 2, 9, NULL, '2020-07-21 15:38:54', '0000-00-00 00:00:00', '::1', 'P'),
-(24, 2, 10, NULL, '2020-07-21 15:41:16', '0000-00-00 00:00:00', '::1', 'P');
+(28, 2, 14, 'test comment', '2020-07-21 17:33:06', '0000-00-00 00:00:00', '::1', 'P'),
+(29, 2, 15, NULL, '2020-07-21 17:34:43', '0000-00-00 00:00:00', '::1', 'P'),
+(30, 2, 16, NULL, '2020-07-21 17:37:37', '0000-00-00 00:00:00', '::1', 'P'),
+(31, 2, 17, NULL, '2020-07-21 17:54:45', '0000-00-00 00:00:00', '::1', 'P'),
+(32, 3, 14, 'test', '2020-07-21 17:56:12', '0000-00-00 00:00:00', '::1', 'P'),
+(33, 4, 14, NULL, '2020-07-21 17:57:51', '0000-00-00 00:00:00', '::1', 'P'),
+(34, 2, 18, NULL, '2020-07-23 23:44:49', '0000-00-00 00:00:00', '::1', 'P'),
+(35, 2, 48, NULL, '2020-07-27 12:00:33', '0000-00-00 00:00:00', '::1', 'P');
 
 -- --------------------------------------------------------
 
@@ -147,16 +158,16 @@ CREATE TABLE `mst_constituency_details` (
   `id` int(11) NOT NULL,
   `type` varchar(100) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `district_id` int(11) NOT NULL
+  `type_of_request` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `mst_constituency_details`
 --
 
-INSERT INTO `mst_constituency_details` (`id`, `type`, `name`, `district_id`) VALUES
-(1, 'From', 'From1', 6),
-(2, 'To', 'To1', 6);
+INSERT INTO `mst_constituency_details` (`id`, `type`, `name`, `type_of_request`) VALUES
+(1, 'From', 'From1', 3),
+(2, 'To', 'To1', 3);
 
 -- --------------------------------------------------------
 
@@ -249,6 +260,30 @@ CREATE TABLE `mst_notifications` (
   `is_approved` enum('A','P','R','F','O') NOT NULL DEFAULT 'P',
   `approval_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mst_purpose`
+--
+
+CREATE TABLE `mst_purpose` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `vlaue` varchar(100) NOT NULL,
+  `type_of_request` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `mst_purpose`
+--
+
+INSERT INTO `mst_purpose` (`id`, `name`, `vlaue`, `type_of_request`) VALUES
+(1, 'Purpose1', '1', 3),
+(2, 'Purpose2', '2', 3),
+(3, 'Purpose3', '3', 3),
+(4, 'Purpose4', '4', 3),
+(5, 'OtherPurpose5', '5', 3);
 
 -- --------------------------------------------------------
 
@@ -367,19 +402,20 @@ CREATE TABLE `mst_user` (
   `is_deleted` enum('Y','N') NOT NULL DEFAULT 'N',
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `is_password_updated` enum('Y','N') NOT NULL DEFAULT 'N'
+  `is_password_updated` enum('Y','N') NOT NULL DEFAULT 'N',
+  `total_application` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `mst_user`
 --
 
-INSERT INTO `mst_user` (`user_id`, `user_name`, `user_full_name`, `email_id`, `password`, `auth_key`, `mobile_number`, `district_id`, `is_active`, `is_deleted`, `created_at`, `updated_at`, `is_password_updated`) VALUES
-(1, 'DEALING_ASSISTANT', 'test', 'amit62mishra@gmail.com', '$2y$13$718x3f03YzOiulsBVmOS7uUy3I2vK9hwgvi0Mboqg1kldt0sszy/6', 'Lgb3NC71OPLt4lQWy6CQ96XjOBzT-B4M', 9999999999, 6, 'Y', 'N', '2020-03-27 17:18:40', '2020-03-27 17:18:40', 'N'),
-(2, 'APPROVER', 'test', 'da@nic.in', '$2y$13$718x3f03YzOiulsBVmOS7uUy3I2vK9hwgvi0Mboqg1kldt0sszy/6', 'Lgb3NC71OPLt4lQWy6CQ96XjOBzT-B4M', 9999999999, 6, 'Y', 'N', '2020-03-27 17:18:40', '2020-03-27 17:18:40', 'N'),
-(3, 'NODAL', 'test', 'nodal@@nic.in', '$2y$13$718x3f03YzOiulsBVmOS7uUy3I2vK9hwgvi0Mboqg1kldt0sszy/6', 'Lgb3NC71OPLt4lQWy6CQ96XjOBzT-B4M', 9999999999, 6, 'Y', 'N', '2020-03-27 17:18:40', '2020-03-27 17:18:40', 'N'),
-(4, 'FINAL_APPROVER', 'test', 'test@gmail.com', '$2y$13$718x3f03YzOiulsBVmOS7uUy3I2vK9hwgvi0Mboqg1kldt0sszy/6', 'Lgb3NC71OPLt4lQWy6CQ96XjOBzT-B4M', 9999999999, 6, 'Y', 'N', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'N'),
-(5, 'amit62mishra', 'test', 'amit@gmail.com', '$2y$13$718x3f03YzOiulsBVmOS7uUy3I2vK9hwgvi0Mboqg1kldt0sszy/6', 'Lgb3NC71OPLt4lQWy6CQ96XjOBzT-B4M', 9999999999, 6, 'Y', 'N', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'N');
+INSERT INTO `mst_user` (`user_id`, `user_name`, `user_full_name`, `email_id`, `password`, `auth_key`, `mobile_number`, `district_id`, `is_active`, `is_deleted`, `created_at`, `updated_at`, `is_password_updated`, `total_application`) VALUES
+(1, 'DEALING_ASSISTANT', 'test', 'amit62mishra@gmail.com', '$2y$13$718x3f03YzOiulsBVmOS7uUy3I2vK9hwgvi0Mboqg1kldt0sszy/6', 'Lgb3NC71OPLt4lQWy6CQ96XjOBzT-B4M', 9999999999, 6, 'Y', 'N', '2020-03-27 17:18:40', '2020-03-27 17:18:40', 'N', 0),
+(2, 'APPROVER', 'test', 'da@nic.in', '$2y$13$718x3f03YzOiulsBVmOS7uUy3I2vK9hwgvi0Mboqg1kldt0sszy/6', 'Lgb3NC71OPLt4lQWy6CQ96XjOBzT-B4M', 9999999999, 6, 'Y', 'N', '2020-03-27 17:18:40', '2020-03-27 17:18:40', 'N', 0),
+(3, 'NODAL', 'test', 'nodal@@nic.in', '$2y$13$718x3f03YzOiulsBVmOS7uUy3I2vK9hwgvi0Mboqg1kldt0sszy/6', 'Lgb3NC71OPLt4lQWy6CQ96XjOBzT-B4M', 9999999999, 6, 'Y', 'N', '2020-03-27 17:18:40', '2020-03-27 17:18:40', 'N', 0),
+(4, 'FINAL_APPROVER', 'test', 'test@gmail.com', '$2y$13$718x3f03YzOiulsBVmOS7uUy3I2vK9hwgvi0Mboqg1kldt0sszy/6', 'Lgb3NC71OPLt4lQWy6CQ96XjOBzT-B4M', 9999999999, 6, 'Y', 'N', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'N', 0),
+(5, 'amit62mishra', 'test', 'amit@gmail.com', '$2y$13$718x3f03YzOiulsBVmOS7uUy3I2vK9hwgvi0Mboqg1kldt0sszy/6', 'Lgb3NC71OPLt4lQWy6CQ96XjOBzT-B4M', 9999999999, 6, 'Y', 'N', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'N', 100);
 
 -- --------------------------------------------------------
 
@@ -418,7 +454,7 @@ CREATE TABLE `order_system` (
   `type_of_request` enum('transfer_adjustment','development_work','financial_assistance','complaint_inquiry','other') NOT NULL,
   `received_through` enum('letter','do_letter','email','others') NOT NULL,
   `concerned_department` varchar(100) NOT NULL,
-  `subject` text NOT NULL,
+  `purpose` text NOT NULL,
   `applicant_name` varchar(225) NOT NULL,
   `mobile_number` varchar(20) NOT NULL,
   `constituency_detail_from` int(11) NOT NULL,
@@ -440,16 +476,42 @@ CREATE TABLE `order_system` (
 -- Dumping data for table `order_system`
 --
 
-INSERT INTO `order_system` (`id`, `type_of_request`, `received_through`, `concerned_department`, `subject`, `applicant_name`, `mobile_number`, `constituency_detail_from`, `constituency_detail_to`, `issued_by`, `letter_date`, `remark`, `action_take`, `document`, `created_at`, `updated_at`, `user_id`, `is_active`, `is_deleted`, `district_id`) VALUES
-(1, 'development_work', 'do_letter', 'test', 'test', 'Amit', '91234567890', 2, 2, 'XYZ', '07/24/2020', 'test', NULL, '', '2020-07-21 01:22:29', '2020-07-21 01:22:29', 5, 'Y', 'N', 0),
-(3, 'transfer_adjustment', 'letter', 'Water', '', 'Amit Mishra', '1234567890', 1, 1, 'Self-Request', '07/25/2020', 'test', NULL, 'C:\\Project\\htdocs\\cmrefnic\\frontend/uploads/order_system/fedfdcb62d131e50e57d37acc442d8c9e506bc6d.jpeg', '2020-07-21 03:27:43', '2020-07-21 03:27:43', 5, 'Y', 'N', 0),
-(4, 'transfer_adjustment', 'letter', '', '', '', '', 1, 1, 'Self-Request', '', '', NULL, '', '2020-07-21 06:31:58', '2020-07-21 06:31:58', 0, 'Y', 'N', 0),
-(5, 'transfer_adjustment', 'letter', '', '', '', '', 1, 1, 'Self-Request', '', '', NULL, '', '2020-07-21 06:32:21', '2020-07-21 06:32:21', 0, 'Y', 'N', 0),
-(6, 'transfer_adjustment', 'letter', 'test', '', 'Amit', '1234567890', 1, 1, 'Self-Request', '07/23/2020', 'test', NULL, '', '2020-07-21 06:36:45', '2020-07-21 06:36:45', 0, 'Y', 'N', 0),
-(7, 'transfer_adjustment', 'letter', '32', '', 'Amit', '1234567890', 1, 1, 'Self-Request', '07/24/2020', 'Test', NULL, '', '2020-07-21 09:55:09', '2020-07-21 09:55:09', 0, 'Y', 'N', 6),
-(8, 'transfer_adjustment', 'letter', '28', '', 'Amit', '1234567890', 1, 1, 'Self-Request', '07/25/2020', 'test', NULL, 'C:\\Project\\htdocs\\cmrefnic\\frontend/uploads/order_system/bc45670ea947edb9a850d917889c3fea46b1bd1b.JPG', '2020-07-21 10:05:05', '2020-07-21 10:05:05', 5, 'Y', 'N', 6),
-(9, 'transfer_adjustment', 'letter', '22', '', 'Amit Mishra', '1234567890', 0, 0, 'Self-Request', '07/30/2020', 'test', NULL, 'C:\\Project\\htdocs\\cmrefnic\\frontend/uploads/order_system/86ed3be5e42d477528a32aed8b66f2bbc6131bfd.JPG', '2020-07-21 10:08:54', '2020-07-21 10:08:54', 5, 'Y', 'N', 6),
-(10, 'transfer_adjustment', 'letter', '22', '', 'Amit Mishra', '1234567890', 0, 0, 'Self-Request', '07/31/2020', 'test', NULL, '', '2020-07-21 10:11:16', '2020-07-21 10:11:16', 0, 'Y', 'N', 6);
+INSERT INTO `order_system` (`id`, `type_of_request`, `received_through`, `concerned_department`, `purpose`, `applicant_name`, `mobile_number`, `constituency_detail_from`, `constituency_detail_to`, `issued_by`, `letter_date`, `remark`, `action_take`, `document`, `created_at`, `updated_at`, `user_id`, `is_active`, `is_deleted`, `district_id`) VALUES
+(14, 'transfer_adjustment', 'letter', '22', '', 'Amit Mishra', '1234567890', 0, 1, 'Self-Request', '07/25/2020', 'test', NULL, '', '2020-07-21 12:03:06', '2020-07-21 12:03:06', 5, 'Y', 'N', 6),
+(15, 'transfer_adjustment', 'letter', '32', '', 'Amit Mishra', '1234567890', 0, 0, 'Self-Request', '07/31/2020', 'test', NULL, '', '2020-07-21 12:04:43', '2020-07-21 12:04:43', 1, 'Y', 'N', 6),
+(16, 'transfer_adjustment', 'letter', '26', '', 'Amit Mishra', '1234567890', 0, 0, 'Self-Request', NULL, NULL, NULL, '', '2020-07-21 12:07:37', '2020-07-21 12:07:37', 1, 'Y', 'N', 0),
+(17, 'transfer_adjustment', 'letter', '3', '', 'test', '9882102908', 0, 0, 'Self-Request', NULL, NULL, NULL, '', '2020-07-21 12:24:45', '2020-07-21 12:24:45', 0, 'Y', 'N', 0),
+(18, 'transfer_adjustment', 'letter', '', '', '', '', 0, 0, 'Self-Request', NULL, NULL, NULL, '', '2020-07-23 18:14:49', '2020-07-23 18:14:49', 0, 'Y', 'N', 0),
+(19, 'financial_assistance', 'email', '32', '5', 'amit', '9981572525', 1, 2, 'VIP', '07/18/2020', 'test', NULL, NULL, '2020-07-25 10:10:25', '2020-07-25 10:10:25', 5, 'Y', 'N', 6),
+(20, 'financial_assistance', 'email', '32', '5', 'amit', '9981572525', 1, 2, 'VIP', '07/18/2020', 'test', NULL, NULL, '2020-07-25 10:10:55', '2020-07-25 10:10:55', 5, 'Y', 'N', 6),
+(21, 'financial_assistance', 'email', '32', '5', 'amit', '9981572525', 1, 2, 'VIP', '07/18/2020', 'test', NULL, NULL, '2020-07-25 10:10:58', '2020-07-25 10:10:58', 5, 'Y', 'N', 6),
+(22, 'financial_assistance', 'email', '32', '5', 'amit', '9981572525', 1, 2, 'VIP', '07/18/2020', 'test', NULL, NULL, '2020-07-25 10:11:53', '2020-07-25 10:11:53', 5, 'Y', 'N', 6),
+(23, 'financial_assistance', 'email', '32', '5', 'amit', '9981572525', 1, 2, 'VIP', '07/18/2020', 'test', NULL, NULL, '2020-07-25 10:12:45', '2020-07-25 10:12:45', 5, 'Y', 'N', 6),
+(24, 'financial_assistance', 'do_letter', '19', '4', 'amit', '998787878', 1, 2, 'Self-Request', '07/11/2020', 'tst', NULL, NULL, '2020-07-25 10:14:28', '2020-07-25 10:14:28', 5, 'Y', 'N', 6),
+(25, 'financial_assistance', 'do_letter', '19', '4', 'amit', '998787878', 1, 2, 'Self-Request', '07/11/2020', 'tst', NULL, NULL, '2020-07-25 10:24:16', '2020-07-25 10:24:16', 5, 'Y', 'N', 6),
+(26, 'financial_assistance', 'letter', '22', '4', 'amit', '1234567890', 1, 2, 'XYZ', '07/30/2020', 'test', NULL, NULL, '2020-07-27 06:13:09', '2020-07-27 06:13:09', 5, 'Y', 'N', 2),
+(27, 'financial_assistance', 'letter', '22', '4', 'amit', '1234567890', 1, 2, 'XYZ', '07/30/2020', 'test', NULL, NULL, '2020-07-27 06:13:27', '2020-07-27 06:13:27', 5, 'Y', 'N', 2),
+(28, 'financial_assistance', 'letter', '22', '4', 'amit', '1234567890', 1, 2, 'XYZ', '07/30/2020', 'test', NULL, NULL, '2020-07-27 06:13:43', '2020-07-27 06:13:43', 5, 'Y', 'N', 2),
+(29, 'financial_assistance', 'letter', '22', '4', 'amit', '1234567890', 1, 2, 'XYZ', '07/30/2020', 'test', NULL, NULL, '2020-07-27 06:14:01', '2020-07-27 06:14:01', 5, 'Y', 'N', 2),
+(30, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:14:44', '2020-07-27 06:14:44', 5, 'Y', 'N', 5),
+(31, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:16:37', '2020-07-27 06:16:37', 5, 'Y', 'N', 5),
+(32, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:16:57', '2020-07-27 06:16:57', 5, 'Y', 'N', 5),
+(33, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:17:52', '2020-07-27 06:17:52', 5, 'Y', 'N', 5),
+(34, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:18:22', '2020-07-27 06:18:22', 5, 'Y', 'N', 5),
+(35, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:18:57', '2020-07-27 06:18:57', 5, 'Y', 'N', 5),
+(36, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:19:29', '2020-07-27 06:19:29', 5, 'Y', 'N', 5),
+(37, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:20:33', '2020-07-27 06:20:33', 5, 'Y', 'N', 5),
+(38, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:22:54', '2020-07-27 06:22:54', 5, 'Y', 'N', 5),
+(39, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:24:09', '2020-07-27 06:24:09', 5, 'Y', 'N', 5),
+(40, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:24:58', '2020-07-27 06:24:58', 5, 'Y', 'N', 5),
+(41, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:25:44', '2020-07-27 06:25:44', 5, 'Y', 'N', 5),
+(42, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:25:48', '2020-07-27 06:25:48', 5, 'Y', 'N', 5),
+(43, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:26:48', '2020-07-27 06:26:48', 5, 'Y', 'N', 5),
+(44, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:26:50', '2020-07-27 06:26:50', 5, 'Y', 'N', 5),
+(45, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:28:14', '2020-07-27 06:28:14', 5, 'Y', 'N', 5),
+(46, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:28:40', '2020-07-27 06:28:40', 5, 'Y', 'N', 5),
+(47, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:29:38', '2020-07-27 06:29:38', 5, 'Y', 'N', 5),
+(48, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:30:33', '2020-07-27 06:30:33', 5, 'Y', 'N', 5);
 
 -- --------------------------------------------------------
 
@@ -512,6 +574,12 @@ INSERT INTO `services` (`service_id`, `services`, `short_name`, `department`, `t
 --
 
 --
+-- Indexes for table `application_documents`
+--
+ALTER TABLE `application_documents`
+  ADD PRIMARY KEY (`document_id`);
+
+--
 -- Indexes for table `application_forward_level`
 --
 ALTER TABLE `application_forward_level`
@@ -551,6 +619,12 @@ ALTER TABLE `mst_notifications`
   ADD KEY `created_by` (`created_by`),
   ADD KEY `created_by_role_id` (`created_by_role_id`),
   ADD KEY `notification_district` (`notification_district`);
+
+--
+-- Indexes for table `mst_purpose`
+--
+ALTER TABLE `mst_purpose`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `mst_received_through`
@@ -618,10 +692,16 @@ ALTER TABLE `services`
 --
 
 --
+-- AUTO_INCREMENT for table `application_documents`
+--
+ALTER TABLE `application_documents`
+  MODIFY `document_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `application_forward_level`
 --
 ALTER TABLE `application_forward_level`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -652,6 +732,12 @@ ALTER TABLE `mst_issued_by`
 --
 ALTER TABLE `mst_notifications`
   MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `mst_purpose`
+--
+ALTER TABLE `mst_purpose`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `mst_received_through`
@@ -693,7 +779,7 @@ ALTER TABLE `mst_user_role_mapping`
 -- AUTO_INCREMENT for table `order_system`
 --
 ALTER TABLE `order_system`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `process_flow_steps`

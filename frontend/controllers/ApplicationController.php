@@ -8,6 +8,7 @@ use frontend\models\Roles;
 use frontend\models\User;
 use frontend\models\UserRoles;
 use frontend\models\ApplicationForwardLevel;
+use frontend\models\ConstituencyDetails;
 use frontend\models\ProcessFlow;
 use yii\web\UploadedFile;
 
@@ -115,6 +116,50 @@ class ApplicationController extends \yii\web\Controller
             'checkWithMe'=> $checkWithMe,
             'history'=>$history
             ]);
+    }
+
+     
+
+    public function actionConstituencyFrom($id) { 
+
+        $rows = ConstituencyDetails::find()->where(['district_id'=>$id,'type'=>'From'])
+                        ->all();
+ 
+        echo "<option>Select</option>";
+        
+        if(isset($rows)) {
+            if(count($rows)>0){
+                foreach($rows as $row){
+                    echo "<option value='$row->id'>$row->name</option>";
+                }
+            }
+            else{
+                echo "<option>No Data Available</option>";
+            }
+        }
+   
+ 
+    }
+
+    public function actionConstituencyTo($id) { 
+
+        $rows = ConstituencyDetails::find()->where(['district_id'=>$id,'type'=>'To'])
+                        ->all();
+ 
+        echo "<option>Select</option>";
+        
+        if(isset($rows)) {
+            if(count($rows)>0){
+                foreach($rows as $row){
+                    echo "<option value='$row->id'>$row->name</option>";
+                }
+            }
+            else{
+                echo "<option>No Data Available</option>";
+            }
+        }
+   
+ 
     }
 
 }
