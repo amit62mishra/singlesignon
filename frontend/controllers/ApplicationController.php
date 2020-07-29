@@ -27,24 +27,24 @@ class ApplicationController extends \yii\web\Controller
         return $this->redirect(['application/index']);
          }
     	if ($model->load(Yii::$app->request->post())) { 
-        //       echo "<pre>";
-    		  // print_r($model); die;
-           // echo  $model->type_of_request; die;
+              
                 $model->user_id = Yii::$app->user->identity->user_id;  
-                $model->type_of_request = $model->type_of_request;  
-                //$model->document= Yii::$app->basePath.'/uploads/order_system/'.$fileName;
-        
+                $model->type_of_request = $model->type_of_request;   
 
             if($model->validate() && $model->save()){
-                $documents = $_FILES['ApplicationDocument'];
-                $name = $_POST['ApplicationDocument'];
-                // echo"<pre>";
-                // print_r($documents ); die;
-                    if (!empty($documents) && !empty($model->id)) {
-                        $Obj = new ApplicationDocument();
-                        //Sending all worker Records to model
-                        $res = $Obj->saveDocumentDetails($documents, $model->id,$name);
-                    }
+                 
+                foreach ($_POST['doc_path'] as $key => $path) { 
+                $document =  new ApplicationDocument();
+
+                $document->application_id = $model->id; 
+
+                $document->name = $_POST['doc_name'][$key]; 
+
+                $document->document = $path;   
+     
+                $document->save();
+                } 
+
 
                 $SubmisionStep = ProcessFlow::find()->where(['history_label'=>'Application submited'])->one();
                 $data = ApplicationForwardLevel::ProcessApplication($model->id,$SubmisionStep->to_role_id,0,'P','');
@@ -196,9 +196,25 @@ class ApplicationController extends \yii\web\Controller
  
     }
 
-     public function actionGetApplicant($name) { 
+    public function actionGetApplicantSearch($name) { 
 
-        $rows = OrderSystem::find()->with(['request','user'])->andWhere(['like', 'lower(applicant_name)',strtolower($name)])->all();
+        $rows = OrderSystem::find()->with(['request','user'])->andWhere(['like', 'lower(applicant_name)',strtolower($name)])->all(); 
+        if(isset($rows)) {
+            if(count($rows)>0){
+                foreach($rows as $row){
+                    echo "<div class='suggest-element'><a onClick='selectApplication($row->id);'>$row->applicant_name</a></div>";
+                }
+            } 
+        }
+
+        
+   
+ 
+    }
+
+     public function actionGetApplicant($id) { 
+
+        $rows = OrderSystem::find()->with(['request','user'])->andWhere(['id'=>$id])->all();
         if(count($rows) > 0){
             return $data =  $this->renderPartial('search_data',[ 
             'model'=>$rows, 
@@ -209,6 +225,28 @@ class ApplicationController extends \yii\web\Controller
 
         
    
+ 
+    }
+
+     public function actionAjaxupload() { 
+          
+          $allowed = array('pdf');
+            $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+            if (!in_array($ext, $allowed)) {
+                return  $data =  json_encode(['msg'=>"Only pdf allowed",'status'=>400]); 
+            }
+
+         $docName = 'App'. time() . "_upload" . "_" . $_FILES['file']['name'];
+                $ext = pathinfo($_FILES['file']['tmp_name'], PATHINFO_EXTENSION);
+                move_uploaded_file($_FILES['file']['tmp_name'], Yii::$app->basePath . '/web/swcs/uploads/' . $docName); 
+         $name  = $_POST['name'];       
+         return  $data =  json_encode(['msg'=>"<tr >   
+                                    <td>$name</td>
+                                    <input type='hidden' name='doc_path[]' value=$docName class='form-control'>
+                                    <input type='hidden' name='doc_name[]' value=$name class='form-control'>  
+                                    <td><a href='swcs/uploads/$docName' target='_blank'>Click here </a>to view</td>  
+                                </tr>",'status'=>200]); 
+
  
     }
 

@@ -28,6 +28,7 @@ use common\models\User;
  */
 class OrderSystem extends \yii\db\ActiveRecord
 {
+    
     /**
      * {@inheritdoc}
      */

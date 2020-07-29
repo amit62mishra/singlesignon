@@ -17,10 +17,10 @@ $documentsObj = new ApplicationDocument();
 if (!empty($model->id)) {
 	$documents = $documentsObj->getDocuments(['application_id'=>$model->id]);
 	if (empty($documents)) {
-		$dcouments = new ApplicationDocument();
+		$dcouments = [new ApplicationDocument()];
 	}
 } else {
-	$documents = new ApplicationDocument();
+	$documents = [new ApplicationDocument()];
 }
  
 $TypeOfRequest =  ArrayHelper::map(TypeOfRequest::find('id', 'name')->orderBy('name')->all(), 'id', 'name');
@@ -88,7 +88,6 @@ $Districts =  ArrayHelper::map(Districts::find('district_id', 'district_name')->
 	    	<div class="row">
 	    		<div class="col-md-6">
 	    			  <?= $form->field($model, 'applicant_name')->textInput(['maxlength' => true]) ?>
-	    			  <div id="suggesstion-box"></div>
 	    		</div>
 	    		<div class="col-md-6">
 	    			  <?= $form->field($model, 'mobile_number')->textInput(['maxlength' => true])  ?>
@@ -128,51 +127,48 @@ $Districts =  ArrayHelper::map(Districts::find('district_id', 'district_name')->
 	    		</div>
 				 	    		
 	    	</div>
-
-	    	
-	    	<div class="row">
-	    		<div class="col-md-12">
-	    			<table class="table table-bordered table-striped table-condensed dform">
-	    			 <input id="form-token" type="hidden" name="token" value="<?=Yii::$app->request->csrfToken?>"/>
-	    					 <tbody>
-			                	 <tr>
-			                	 	<td>
-			                	 		<?= $form->field($documents, 'name')->textInput(['prompt' => 'Select', 'class' => 'form-control']) ?> 
-			                	 	</td>
-			                	 	<td>
-			                	 		 <?= $form->field($documents, 'document')->fileInput(['data-validate' => 'string', 'maxlength' => true,"accept"=>"pdf"]) ?>
-			                	 		 <div id="img-loader" class="hide pull-right"><img src="swcs/img/loader.gif" style="width:8%"></div>
-			                	 		 <span id="msg" style="color: red"></span>
-			                	 	</td>
-			                	 	<td>
-			                	 		<span id="upload" class = "btn btn-primary"><i class="fa fa-upload" aria-hidden="true"></i></span>
-			                	 	</td>
-			                	 </tr>
-	    			     
-			                </tbody> 
-			               
-			            </table>
-			        </div>
-			    </div>
 	    	<br>
 
-	    	<div class="row hide" id="document-list">
+	    	<div class="row">
 	    		<div class="col-md-12">
-	    			<table class="table table-bordered table-striped table-condensed dform"  id="myTable" data-remove="0">
-	    			
+	    			<table class="table table-bordered table-striped table-condensed dform" data-value="<?= count($documents) - 1; ?>" data-remove="0">
 			                <thead>
-			                    <tr class="">   
+			                    <tr class="bg_gray"> 
+			                        <th>&nbsp; </th> 
 			                        <th>Name: <span class="text-danger">*</span></th>
-			                        <th>Document View :<span class="text-danger">*</span></th> 
+			                        <th>Upload Document :<span class="text-danger">*</span></th> 
 			                        
 			                    </tr>
 			                </thead>
-			                <tbody> 
-			                    <tr >   
+			                <tbody>
+			                <?php
+	    			$countdocument = count($documents);
+	    			 foreach ($documents as $s => $document): ?>
+
+			                    <tr id="formTemplate">  
+			                        <td class="links">
+			                            <?php 
+				                            if(($countdocument - 1) == $s)
+				                            {
+				                            ?>
+				                            <a href="javascript:void(0);" class="addButton"><i class="fa fa-plus"></i>  &nbsp;&nbsp;</a>
+				                            <?php
+				                            }
+				                            ?>
+			                            <a href="javascript:void(0);"> <i class="fa fa-times"></i> </a> 
+			                        </td> 
+			                        <td>
+			                            <?= $form->field($document, '['. $s .']name[]')->textInput(['value' => $document->name, 'data-validate' => 'string'])->label(false); ?>
+			                        </td>  
+			                        <td>
+			                            <?= $form->field($document, '['. $s .']document[]')->fileInput(['value' => $document->document, 'data-validate' => 'string', 'maxlength' => true,"accept"=>"image/x-png,image/gif,image/jpeg"])->label(false); ?>
+			                        </td>
 			                         
-			                    </tr> 
+			                         
+			                    </tr>
+			                    <?php endforeach; ?>	
 			                </tbody>
-	    			</table>
+	    				</table>
 	    		</div>
 	    	</div>
 	    	 
@@ -191,29 +187,14 @@ $Districts =  ArrayHelper::map(Districts::find('district_id', 'district_name')->
 	
 	jQuery(document).ready(function(){ 
 
-	function selectApplication(val) {
- 
+	jQuery("#ordersystem-applicant_name").change(function(){ 
+       	 
         
         jQuery.get('<?= Url::toRoute('/application/get-applicant') ?>', { 
-                id: val } )
+                name: jQuery(this).val() } )
                 .done(function( data ) {
                         jQuery( "#search_applicant" ).html( data );
                         jQuery('#myModal').modal('show'); 
-                    }
-                );  
-
-    }	
-
-    jQuery("#ordersystem-applicant_name").keyup(function(){ 
-       	 
-        
-        jQuery.get('<?= Url::toRoute('/application/get-applicant-search') ?>', { 
-                name: jQuery(this).val() } )
-                .done(function( data ) {
-                	//alert(data);
-                        $("#suggesstion-box").show();
-						$("#suggesstion-box").html(data);
-						$("#search-box").css("background","#FFF"); 
                     }
                 );  
 
@@ -257,52 +238,6 @@ $Districts =  ArrayHelper::map(Districts::find('district_id', 'district_name')->
                     }
                 );        
     });
-
-    $(document).on("click", "#upload", function() {
-		  var file_data = $("#applicationdocument-document").prop("files")[0]; 
-		  var name = $("#applicationdocument-name").val(); 
-		  var token = $("#form-token").val(); 
-		  $("#img-loader").removeClass("hide");
-		  $("#msg").html(''); 
-		  $("#applicationdocument-document").addClass("hide");
-		  // Getting the properties of file from file field
-		  var form_data = new FormData(); // Creating object of FormData class
-		  form_data.append("file", file_data) // Appending parameter named file with properties of file_field to form_data 
-		  form_data.append("name",name) // Adding extra parameters to form_data
-		  
-		  request = $.ajax({
-		    url: "index.php?r=application/ajaxupload", // Upload Script
-		    dataType: 'script',
-		    cache: false,
-		    contentType: false,
-		    processData: false,
-		    data: form_data, // Setting the data attribute of ajax with file_data
-		    type: 'post',
-		    headers: {  'X-CSRF-Token': token },
-		     
-		  });
-		  request.done(function(data) {
-		  	 	data= JSON.parse(data);
-		  	 	if(data.status==200){
-		  	 	 $('#myTable tr:last').after(data.msg);
-		  		 $('#document-list').removeClass('hide');
-		  		 $("#applicationdocument-document").val('');
-		  		 $("#applicationdocument-name").val('');
-		  		 $("#img-loader").addClass("hide");
-		  		 $("#applicationdocument-document").removeClass("hide");
-		  	 	} else{
-		  	 	 $("#img-loader").addClass("hide");
-		  		 $("#applicationdocument-document").removeClass("hide");	
-		  		 $("#msg").html(data.msg); 
-		  		 $("#applicationdocument-document").val('')
-		  		 $("#applicationdocument-name").val('')
-
-		  		 }
-            });
-		  	 	
- 
-		});
- 
 });
 
 </script>
@@ -327,13 +262,6 @@ $Districts =  ArrayHelper::map(Districts::find('district_id', 'district_name')->
 
   </div>
 </div>
-<style> 
-
-#country-list{float:left;list-style:none;margin-top:-3px;padding:0;width:190px;position: absolute;}
-#country-list li{padding: 10px; background: #f0f0f0; border-bottom: #bbb9b9 1px solid;}
-#country-list li:hover{background:#ece3d2;cursor: pointer;}
-#search-box{padding: 10px;border: #a8d4b1 1px solid;border-radius:4px;}
-</style>
  <script src="swcs/js/my.js"></script> 
  <script src="swcs/js/yii.activeForm.js"></script> 
 
