@@ -51,6 +51,65 @@ $Districts =  ArrayHelper::map(Districts::find('district_id', 'district_name')->
 		color: black;
 	}
 </style>
+
+<style>
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #3e8e41;
+}
+
+#myInput {
+  box-sizing: border-box;
+  background-image: url('searchicon.png');
+  background-position: 14px 12px;
+  background-repeat: no-repeat;
+  font-size: 16px;
+  padding: 14px 20px 12px 45px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+}
+
+#myInput:focus {outline: 3px solid #ddd;}
+
+.dropdown {
+  position: relative;
+ /* display: inline-block;*/
+}
+
+.dropdown-content {
+  /*display: none;*/
+  position: absolute;
+  background-color: #f6f6f6;
+  min-width: 524px;
+  overflow: auto;
+  border: 1px solid #ddd;
+  z-index: 1; 
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+#suggesstion-box{
+    margin-left: 10px;
+    padding-top: -10px;
+    margin-top: -10px;
+}
+.dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}
+</style>
 <div class="container">
 	<h1>Application Form for Order </h1>
 	<div class="box-footer box-danger"><a href="<?=$url = Url::to(['application/index']);?>" class="btn btn-sm bg-maroon pull-right">Application List </a></div>
@@ -85,10 +144,16 @@ $Districts =  ArrayHelper::map(Districts::find('district_id', 'district_name')->
 	    			  <?= $form->field($model, 'purpose')->dropDownList([''=>'Select Type Of Request First']) ?>    
 	    		</div>
 	    	</div>
+	    	 
+	    	
 	    	<div class="row">
 	    		<div class="col-md-6">
 	    			  <?= $form->field($model, 'applicant_name')->textInput(['maxlength' => true]) ?>
-	    			  <div id="suggesstion-box"></div>
+	    			 <!--  <div id="suggesstion-box"></div> -->
+	    			  <div class="dropdown" id="suggesstion-box">	 
+						  <div id="myDropdown" class="dropdown-content">
+						  </div>
+						</div>
 	    		</div>
 	    		<div class="col-md-6">
 	    			  <?= $form->field($model, 'mobile_number')->textInput(['maxlength' => true])  ?>
@@ -188,12 +253,9 @@ $Districts =  ArrayHelper::map(Districts::find('district_id', 'district_name')->
 </div>
 
 <script type="text/javascript">
-	
-	jQuery(document).ready(function(){ 
-
-	function selectApplication(val) {
- 
-        
+	function selectapplication(val,username) { 
+ 			$("#suggesstion-box").css("display","none"); 
+        	$('#ordersystem-applicant_name').val(username);
         jQuery.get('<?= Url::toRoute('/application/get-applicant') ?>', { 
                 id: val } )
                 .done(function( data ) {
@@ -204,6 +266,12 @@ $Districts =  ArrayHelper::map(Districts::find('district_id', 'district_name')->
 
     }	
 
+</script>
+
+<script type="text/javascript">
+	
+	jQuery(document).ready(function(){ 
+
     jQuery("#ordersystem-applicant_name").keyup(function(){ 
        	 
         
@@ -212,7 +280,7 @@ $Districts =  ArrayHelper::map(Districts::find('district_id', 'district_name')->
                 .done(function( data ) {
                 	//alert(data);
                         $("#suggesstion-box").show();
-						$("#suggesstion-box").html(data);
+						$("#myDropdown").html(data);
 						$("#search-box").css("background","#FFF"); 
                     }
                 );  
@@ -306,6 +374,30 @@ $Districts =  ArrayHelper::map(Districts::find('district_id', 'district_name')->
 });
 
 </script>
+<script>
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+function filterFunction() {
+  var input, filter, ul, li, a, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  div = document.getElementById("myDropdown");
+  a = div.getElementsByTagName("a");
+  for (i = 0; i < a.length; i++) {
+    txtValue = a[i].textContent || a[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      a[i].style.display = "";
+    } else {
+      a[i].style.display = "none";
+    }
+  }
+}
+</script>
+
 
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">

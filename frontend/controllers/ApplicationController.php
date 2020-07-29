@@ -202,7 +202,7 @@ class ApplicationController extends \yii\web\Controller
         if(isset($rows)) {
             if(count($rows)>0){
                 foreach($rows as $row){
-                    echo "<div class='suggest-element'><a onClick='selectApplication($row->id);'>$row->applicant_name</a></div>";
+                    echo "<a onClick=selectapplication($row->id,'$row->applicant_name'); href='#'>$row->applicant_name</a></div>";
                 }
             } 
         }

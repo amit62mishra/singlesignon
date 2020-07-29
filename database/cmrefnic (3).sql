@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 28, 2020 at 06:34 AM
+-- Generation Time: Jul 29, 2020 at 09:12 AM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.1.33
 
@@ -40,9 +40,13 @@ CREATE TABLE `application_documents` (
 --
 
 INSERT INTO `application_documents` (`document_id`, `application_id`, `document`, `name`) VALUES
-(1, 47, '47_1595831378_upload_anil.jpg', 'anil.jpg'),
-(2, 48, '48_1595831433_upload_anil.jpg', 'anil.jpg'),
-(3, 48, '48_1595831433_upload_anil.jpg', 'anil.jpg');
+(4, 1, '1_1595918800_upload_anil.jpg', 'anil.jpg'),
+(5, 2, '2_1595919117_upload_anil.jpg', 'anil.jpg'),
+(6, 4, '4_1595919703_upload_WhatsApp Image 2020-04-28 at 4.56.46 PM.jpeg', 'WhatsApp Image 2020-04-28 at 4.56.46 PM.jpeg'),
+(7, 8, '8_1595921859_upload_anil.jpg', 'test'),
+(8, 9, '9_1595922250_upload_anil.jpg', 'test'),
+(9, 10, 'App1595974826_upload_Minimum.pdf', 'test'),
+(10, 10, 'App1595975084_upload_AfshaCV-2.pdf', 'test');
 
 -- --------------------------------------------------------
 
@@ -73,7 +77,14 @@ INSERT INTO `application_forward_level` (`id`, `next_role_id`, `application_id`,
 (32, 3, 14, 'test', '2020-07-21 17:56:12', '0000-00-00 00:00:00', '::1', 'P'),
 (33, 4, 14, NULL, '2020-07-21 17:57:51', '0000-00-00 00:00:00', '::1', 'P'),
 (34, 2, 18, NULL, '2020-07-23 23:44:49', '0000-00-00 00:00:00', '::1', 'P'),
-(35, 2, 48, NULL, '2020-07-27 12:00:33', '0000-00-00 00:00:00', '::1', 'P');
+(35, 2, 48, NULL, '2020-07-27 12:00:33', '0000-00-00 00:00:00', '::1', 'P'),
+(36, 2, 1, NULL, '2020-07-28 12:16:40', '0000-00-00 00:00:00', '::1', 'P'),
+(37, 2, 2, NULL, '2020-07-28 12:21:57', '0000-00-00 00:00:00', '::1', 'P'),
+(38, 2, 3, NULL, '2020-07-28 12:29:36', '0000-00-00 00:00:00', '::1', 'P'),
+(39, 2, 4, NULL, '2020-07-28 12:31:43', '0000-00-00 00:00:00', '::1', 'P'),
+(40, 2, 8, NULL, '2020-07-28 13:07:39', '0000-00-00 00:00:00', '::1', 'P'),
+(41, 2, 9, NULL, '2020-07-28 13:14:10', '0000-00-00 00:00:00', '::1', 'P'),
+(42, 2, 10, NULL, '2020-07-29 04:00:05', '0000-00-00 00:00:00', '::1', 'P');
 
 -- --------------------------------------------------------
 
@@ -451,8 +462,8 @@ INSERT INTO `mst_user_role_mapping` (`map_id`, `user_id`, `role_id`, `is_active`
 
 CREATE TABLE `order_system` (
   `id` int(11) NOT NULL,
-  `type_of_request` enum('transfer_adjustment','development_work','financial_assistance','complaint_inquiry','other') NOT NULL,
-  `received_through` enum('letter','do_letter','email','others') NOT NULL,
+  `type_of_request` int(11) NOT NULL,
+  `received_through` int(11) NOT NULL,
   `concerned_department` varchar(100) NOT NULL,
   `purpose` text NOT NULL,
   `applicant_name` varchar(225) NOT NULL,
@@ -477,41 +488,13 @@ CREATE TABLE `order_system` (
 --
 
 INSERT INTO `order_system` (`id`, `type_of_request`, `received_through`, `concerned_department`, `purpose`, `applicant_name`, `mobile_number`, `constituency_detail_from`, `constituency_detail_to`, `issued_by`, `letter_date`, `remark`, `action_take`, `document`, `created_at`, `updated_at`, `user_id`, `is_active`, `is_deleted`, `district_id`) VALUES
-(14, 'transfer_adjustment', 'letter', '22', '', 'Amit Mishra', '1234567890', 0, 1, 'Self-Request', '07/25/2020', 'test', NULL, '', '2020-07-21 12:03:06', '2020-07-21 12:03:06', 5, 'Y', 'N', 6),
-(15, 'transfer_adjustment', 'letter', '32', '', 'Amit Mishra', '1234567890', 0, 0, 'Self-Request', '07/31/2020', 'test', NULL, '', '2020-07-21 12:04:43', '2020-07-21 12:04:43', 1, 'Y', 'N', 6),
-(16, 'transfer_adjustment', 'letter', '26', '', 'Amit Mishra', '1234567890', 0, 0, 'Self-Request', NULL, NULL, NULL, '', '2020-07-21 12:07:37', '2020-07-21 12:07:37', 1, 'Y', 'N', 0),
-(17, 'transfer_adjustment', 'letter', '3', '', 'test', '9882102908', 0, 0, 'Self-Request', NULL, NULL, NULL, '', '2020-07-21 12:24:45', '2020-07-21 12:24:45', 0, 'Y', 'N', 0),
-(18, 'transfer_adjustment', 'letter', '', '', '', '', 0, 0, 'Self-Request', NULL, NULL, NULL, '', '2020-07-23 18:14:49', '2020-07-23 18:14:49', 0, 'Y', 'N', 0),
-(19, 'financial_assistance', 'email', '32', '5', 'amit', '9981572525', 1, 2, 'VIP', '07/18/2020', 'test', NULL, NULL, '2020-07-25 10:10:25', '2020-07-25 10:10:25', 5, 'Y', 'N', 6),
-(20, 'financial_assistance', 'email', '32', '5', 'amit', '9981572525', 1, 2, 'VIP', '07/18/2020', 'test', NULL, NULL, '2020-07-25 10:10:55', '2020-07-25 10:10:55', 5, 'Y', 'N', 6),
-(21, 'financial_assistance', 'email', '32', '5', 'amit', '9981572525', 1, 2, 'VIP', '07/18/2020', 'test', NULL, NULL, '2020-07-25 10:10:58', '2020-07-25 10:10:58', 5, 'Y', 'N', 6),
-(22, 'financial_assistance', 'email', '32', '5', 'amit', '9981572525', 1, 2, 'VIP', '07/18/2020', 'test', NULL, NULL, '2020-07-25 10:11:53', '2020-07-25 10:11:53', 5, 'Y', 'N', 6),
-(23, 'financial_assistance', 'email', '32', '5', 'amit', '9981572525', 1, 2, 'VIP', '07/18/2020', 'test', NULL, NULL, '2020-07-25 10:12:45', '2020-07-25 10:12:45', 5, 'Y', 'N', 6),
-(24, 'financial_assistance', 'do_letter', '19', '4', 'amit', '998787878', 1, 2, 'Self-Request', '07/11/2020', 'tst', NULL, NULL, '2020-07-25 10:14:28', '2020-07-25 10:14:28', 5, 'Y', 'N', 6),
-(25, 'financial_assistance', 'do_letter', '19', '4', 'amit', '998787878', 1, 2, 'Self-Request', '07/11/2020', 'tst', NULL, NULL, '2020-07-25 10:24:16', '2020-07-25 10:24:16', 5, 'Y', 'N', 6),
-(26, 'financial_assistance', 'letter', '22', '4', 'amit', '1234567890', 1, 2, 'XYZ', '07/30/2020', 'test', NULL, NULL, '2020-07-27 06:13:09', '2020-07-27 06:13:09', 5, 'Y', 'N', 2),
-(27, 'financial_assistance', 'letter', '22', '4', 'amit', '1234567890', 1, 2, 'XYZ', '07/30/2020', 'test', NULL, NULL, '2020-07-27 06:13:27', '2020-07-27 06:13:27', 5, 'Y', 'N', 2),
-(28, 'financial_assistance', 'letter', '22', '4', 'amit', '1234567890', 1, 2, 'XYZ', '07/30/2020', 'test', NULL, NULL, '2020-07-27 06:13:43', '2020-07-27 06:13:43', 5, 'Y', 'N', 2),
-(29, 'financial_assistance', 'letter', '22', '4', 'amit', '1234567890', 1, 2, 'XYZ', '07/30/2020', 'test', NULL, NULL, '2020-07-27 06:14:01', '2020-07-27 06:14:01', 5, 'Y', 'N', 2),
-(30, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:14:44', '2020-07-27 06:14:44', 5, 'Y', 'N', 5),
-(31, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:16:37', '2020-07-27 06:16:37', 5, 'Y', 'N', 5),
-(32, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:16:57', '2020-07-27 06:16:57', 5, 'Y', 'N', 5),
-(33, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:17:52', '2020-07-27 06:17:52', 5, 'Y', 'N', 5),
-(34, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:18:22', '2020-07-27 06:18:22', 5, 'Y', 'N', 5),
-(35, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:18:57', '2020-07-27 06:18:57', 5, 'Y', 'N', 5),
-(36, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:19:29', '2020-07-27 06:19:29', 5, 'Y', 'N', 5),
-(37, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:20:33', '2020-07-27 06:20:33', 5, 'Y', 'N', 5),
-(38, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:22:54', '2020-07-27 06:22:54', 5, 'Y', 'N', 5),
-(39, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:24:09', '2020-07-27 06:24:09', 5, 'Y', 'N', 5),
-(40, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:24:58', '2020-07-27 06:24:58', 5, 'Y', 'N', 5),
-(41, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:25:44', '2020-07-27 06:25:44', 5, 'Y', 'N', 5),
-(42, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:25:48', '2020-07-27 06:25:48', 5, 'Y', 'N', 5),
-(43, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:26:48', '2020-07-27 06:26:48', 5, 'Y', 'N', 5),
-(44, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:26:50', '2020-07-27 06:26:50', 5, 'Y', 'N', 5),
-(45, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:28:14', '2020-07-27 06:28:14', 5, 'Y', 'N', 5),
-(46, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:28:40', '2020-07-27 06:28:40', 5, 'Y', 'N', 5),
-(47, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:29:38', '2020-07-27 06:29:38', 5, 'Y', 'N', 5),
-(48, 'financial_assistance', 'letter', '22', '2', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'test', NULL, NULL, '2020-07-27 06:30:33', '2020-07-27 06:30:33', 5, 'Y', 'N', 5);
+(4, 3, 1, '19', '2', 'amit', '1234567890', 1, 2, 'Self-Request', '07/24/2020', 'test', NULL, NULL, '2020-07-28 07:01:43', '2020-07-28 07:01:43', 5, 'Y', 'N', 2),
+(5, 3, 1, '22', '3', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'nbb', NULL, NULL, '2020-07-28 07:36:04', '2020-07-28 07:36:04', 5, 'Y', 'N', 12),
+(6, 3, 1, '22', '3', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'nbb', NULL, NULL, '2020-07-28 07:36:55', '2020-07-28 07:36:55', 5, 'Y', 'N', 12),
+(7, 3, 1, '22', '3', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'nbb', NULL, NULL, '2020-07-28 07:37:11', '2020-07-28 07:37:11', 5, 'Y', 'N', 12),
+(8, 3, 1, '22', '3', 'amit', '1234567890', 1, 2, 'VIP', '07/31/2020', 'nbb', NULL, NULL, '2020-07-28 07:37:39', '2020-07-28 07:37:39', 5, 'Y', 'N', 12),
+(9, 3, 3, '22', '3', 'amit', '1234567890', 1, 2, 'Self-Request', '07/31/2020', 'test', NULL, NULL, '2020-07-28 07:44:10', '2020-07-28 07:44:10', 5, 'Y', 'N', 2),
+(10, 3, 1, '28', '2', 'tst', '1234567890', 1, 2, 'VIP', '07/30/2020', 'test', NULL, NULL, '2020-07-28 22:30:05', '2020-07-28 22:30:05', 5, 'Y', 'N', 5);
 
 -- --------------------------------------------------------
 
@@ -695,13 +678,13 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `application_documents`
 --
 ALTER TABLE `application_documents`
-  MODIFY `document_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `document_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `application_forward_level`
 --
 ALTER TABLE `application_forward_level`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -779,7 +762,7 @@ ALTER TABLE `mst_user_role_mapping`
 -- AUTO_INCREMENT for table `order_system`
 --
 ALTER TABLE `order_system`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `process_flow_steps`
