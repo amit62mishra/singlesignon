@@ -10,10 +10,10 @@ $baseUrl='swcs';
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-    <title>CMREF NIC | Dashboard</title>
+    <title>ADMIN NIC | Dashboard</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <meta name="keywords" content="CMREF-NIC" />
-    <meta name="description" content="CMREF-NIC" />
+    <meta name="keywords" content="ADMIN" />
+    <meta name="description" content="ADMIN" />
     <link rel="stylesheet" href="<?=$baseUrl?>/css/style.css">
     <link rel="stylesheet" href="<?=$baseUrl?>/css/steps.css">
     <link rel="stylesheet" href="<?=$baseUrl?>/css/skins/_all-skins.min.css">
@@ -22,7 +22,7 @@ $baseUrl='swcs';
     <link rel="stylesheet" href="<?=$baseUrl?>/bower_components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="<?=$baseUrl?>/bower_components/Ionicons/css/ionicons.min.css">
 
-    <link rel="stylesheet" href="<?=$baseUrl?>/bower_components/jvectormap/jquery-jvectormap.css">
+    <link rel="styleshe et" href="<?=$baseUrl?>/bower_components/jvectormap/jquery-jvectormap.css">
     <link rel="stylesheet" href="<?=$baseUrl?>/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="<?=$baseUrl?>/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
     <link rel="stylesheet" href="<?=$baseUrl?>/bower_components/bootstrap-daterangepicker/daterangepicker.css">
@@ -40,9 +40,9 @@ $baseUrl='swcs';
     <!-- <div id="#loader"><div class="lds-facebook"><div></div><div></div><div></div></div></div> -->
     <div class="wrapper">
       <header class="main-header">
-        <a href="<?= Url::to(['/backoffice/frontuser'])?>" class="logo">
-          <span class="logo-mini">CMREF-NIC</span>
-          <span class="logo-lg">CMREF-NIC</span>
+        <a href="#" class="logo">
+          <span class="logo-mini">ADMIN</span>
+          <span class="logo-lg">ADMIN</span>
         </a>
         <nav class="navbar navbar-static-top">
           <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -75,8 +75,9 @@ $baseUrl='swcs';
                       <li class="user-footer">
                         
                           <div class="pull-left">
-                            <a href="<?=Url::to(['Profile/user'])?>" class="btn btn-default btn-flat">Profile</a>
+                            <a href="<?=Url::to(['user/profile'])?>" class="btn btn-default btn-flat">Profile</a>
                           </div>
+                          
                           <div class="pull-right">
                             <a href="<?=Url::to(['site/logout'])?>" class="btn btn-default btn-flat">Sign out</a>
                           </div> 
@@ -89,7 +90,7 @@ $baseUrl='swcs';
             </ul>
           </div>
         </nav>
-      </header>
+      </header> 
       <?php 
         
            require_once('admin.php'); 
@@ -101,21 +102,11 @@ $baseUrl='swcs';
         <div class="float-right d-none d-sm-block" style="float: right;">
           <a href=""><b>Version</b>1.0</a>
         </div>
-        <strong><a href="http://emerginghimachal.hp.gov.in">CMREF-NIC</a> &copy; 2020.</strong>
+        <strong><a href="http://emerginghimachal.hp.gov.in">ADMIN</a> &copy; 2020.</strong>
         reserved.
-      </footer>
-    </div>
+      </footer> 
     <script src="<?=$baseUrl?>/bower_components/jquery-ui/jquery-ui.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function(){
-        // $.widget.bridge('uibutton', $.ui.button);
-        <?php
-                foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
-                   echo 'callAlerts("'.$key.'","'.$message.'");';
-                }
-                ?>
-      })
-    </script>
+     
     
     <script src="<?=$baseUrl?>/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="<?=$baseUrl?>/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
@@ -139,6 +130,9 @@ $baseUrl='swcs';
       $(function () {
         $('.textarea').wysihtml5();
         $('.datepicker').datepicker({
+            autoclose: true
+        });
+        $('.datepicker2').datepicker({
             autoclose: true
         });
       })

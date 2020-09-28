@@ -11,6 +11,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
+
+<div class="container">
 <div class="users-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -18,6 +20,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Update', ['update', 'id' => base64_encode($model->user_id)], ['class' => 'btn btn-primary']) ?>
     </p>
+    <p>
+        <?= Html::a('All Users', ['index'], ['class' => 'btn btn-success']) ?>
+    </p>
+
 
     <?= DetailView::widget([
         'model' => $model,
@@ -36,4 +42,5 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
+</div>
 </div>

@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
+use common\models\User;
 use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -94,17 +95,24 @@ class SiteController extends Controller
             return $this->goHome();
         } 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            
-            return $this->redirect(['application/index']);
-             
-        } else {
-            $model->password = '';
+        if ($model->load(Yii::$app->request->post())) { 
+            $userArray = ['user_name' => $model->user_name, 'password' => $model->password]; 
 
-            return $this->render('login', [
-                'model' => $model,
-            ]);
-        }
+                $identity = User::findOne($userArray);
+                 
+                    if($identity) {
+                       $model->login();
+                        
+                        return $this->redirect(['user/index']);
+                         
+                    } else {
+                        $model->password = '';
+ 
+                    }
+               }
+          return $this->renderPartial('login', [
+                            'model' => $model,  
+                         ]);        
     }
 
     /**

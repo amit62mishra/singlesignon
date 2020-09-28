@@ -17,14 +17,14 @@ use Yii;
  * @property MstUser $user
  * @property MstRoles $role
  */
-class UserRoleMapping extends \yii\db\ActiveRecord
+class UserRoleAccessMapping extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */ 
     public static function tableName()
     {
-        return 'mst_user_role_mapping';
+        return 'user_role_access_mapping';
     }
 
     /**
@@ -34,13 +34,9 @@ class UserRoleMapping extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'role_id'], 'required'],
-            [['user_id', 'role_id','department_id','primary_user_id'], 'integer'],
-            [['is_active', 'is_deleted'], 'string'], 
-            [['notification_no', 'time_of_joining','date_of_joining','charge','old_dept','old_role','notification_date'], 'string'],
-            [['notification_no', 'time_of_joining','date_of_joining','charge'], 'required'],
-            [['created_on'], 'safe'],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'user_id']],
-            [['role_id'], 'exist', 'skipOnError' => true, 'targetClass' => Roles::className(), 'targetAttribute' => ['role_id' => 'role_id']],
+            [['user_id', 'role_id','dept_id','service_id'], 'integer'],
+            [['is_active','url'], 'string'],  
+            [['created_on'], 'safe'], 
         ];
     }
 
@@ -50,11 +46,10 @@ class UserRoleMapping extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'map_id' => 'Map ID',
+            'id' => 'ID',
             'user_id' => 'User ID',
             'role_id' => 'Role ID',
-            'is_active' => 'Is Active',
-            'is_deleted' => 'Is Deleted',
+            'is_active' => 'Is Active', 
             'created_on' => 'Created On',
         ];
     }

@@ -14,6 +14,7 @@ use Yii;
  * @property string $password
  * @property int $mobile_number
  * @property int $district_id
+ * @property int $primary_user_id
  * @property string $is_active
  * @property string $is_deleted
  * @property string $created_on
@@ -42,12 +43,12 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_name', 'user_full_name', 'email_id', 'password', 'role_id','mobile_number', 'district_id'], 'required'],
+            [['user_name', 'user_full_name', 'email_id','mobile_number'], 'required'],
             [['mobile_number', 'district_id'], 'integer'],
             [['email_id'],'email'],
             [['user_name'], 'unique'],
             [['email_id'], 'unique'],
-            [['is_active', 'is_deleted'], 'string'],
+            [['is_active', 'is_deleted','token'], 'string'],
             [['created_on', 'modified_on'], 'safe'],
             [['user_name'], 'string', 'max' => 100],
             [['user_full_name', 'email_id', 'password'], 'string', 'max' => 255],
@@ -71,8 +72,7 @@ class Users extends \yii\db\ActiveRecord
             'is_active' => 'Is Active',
             'is_deleted' => 'Is Deleted',
             'created_on' => 'Created On',
-            'modified_on' => 'Modified On',
-            'role_id'=>'Role'
+            'modified_on' => 'Modified On', 
         ];
     }
 

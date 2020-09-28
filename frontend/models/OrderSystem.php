@@ -108,4 +108,25 @@ class OrderSystem extends \yii\db\ActiveRecord
     {
         return $this->hasOne(ReceivedThrough::className(), ['id' => 'received_through']);
     }
+    public function getDistrict()
+    {
+        return $this->hasOne(Districts::className(), ['district_id' => 'district_id']);
+    }
+
+    public function getConstituencyfrom()
+    {
+        return $this->hasOne(ConstituencyDetails::className(), ['id' => 'constituency_detail_from']);
+    }
+
+    public function getConstituencyto()
+    {
+        return $this->hasOne(ConstituencyDetails::className(), ['id' => 'constituency_detail_to']);
+    }
+
+    public function getDepartment()
+    {
+        return $this->hasOne(Departments::className(), ['dept_id' => 'concerned_department']);
+    }
+
+
 }

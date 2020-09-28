@@ -17,7 +17,7 @@ use common\models\UserRoleMapping;
  * @property string $password_reset_token
  * @property string $verification_token
  * @property string $email
- * @property string $auth_key
+ * @property string $auth_key 
  * @property integer $is_active
  * @property integer $created_at
  * @property integer $updated_at
@@ -57,6 +57,11 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['is_active', 'default', 'value' => self::STATUS_INACTIVE],
             ['is_active', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
+            [['office_location','token'], 'string', 'max' => 100],
+            [['email_id','password'], 'required'],
+            [['aadhar'], 'string', 'max' => 12],
+            [['mobile_number'], 'string', 'max' => 10],
+            [['gender'], 'string', 'max' => 1],
         ];
     }
 

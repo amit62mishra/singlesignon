@@ -3,31 +3,16 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm; 
 use yii\helpers\Url;
-use yii\web\View;  
-use frontend\models\TypeOfRequest;;
-use frontend\models\ReceivedThrough;;
-use frontend\models\IssuedBy;;
+use yii\web\View;   
 use frontend\models\Departments;  
-use frontend\models\Districts;   
-use frontend\models\Purpose;   
-use frontend\models\ApplicationDocument;   
-
-$documentsObj = new ApplicationDocument();
-
-if (!empty($model->id)) {
-	$documents = $documentsObj->getDocuments(['application_id'=>$model->id]);
-	if (empty($documents)) {
-		$dcouments = new ApplicationDocument();
-	}
-} else {
-	$documents = new ApplicationDocument();
-}
- 
-$TypeOfRequest =  ArrayHelper::map(TypeOfRequest::find('id', 'name')->orderBy('name')->all(), 'id', 'name');
-$ReceivedThrough =  ArrayHelper::map(ReceivedThrough::find('id', 'name')->orderBy('name')->all(), 'id', 'name');
-$IssuedBy =  ArrayHelper::map(IssuedBy::find('id', 'name')->orderBy('name')->all(), 'id', 'name'); 
+use frontend\models\Districts;     
+use frontend\models\Roles;    
+  
 $Departments =  ArrayHelper::map(Departments::find('dept_id', 'department_name')->orderBy('department_name')->all(), 'dept_id', 'department_name'); 
 $Districts =  ArrayHelper::map(Districts::find('district_id', 'district_name')->orderBy('district_name')->all(), 'district_id', 'district_name');
+
+$Roles =  ArrayHelper::map(Roles::find('role_id', 'role_name')->orderBy('role_name')->all(), 'role_id', 'role_name');
+
 ?>
 
 
@@ -111,145 +96,111 @@ $Districts =  ArrayHelper::map(Districts::find('district_id', 'district_name')->
 .show {display: block;}
 </style>
 <div class="container">
-	<h1>Application Form for Order </h1>
-	<div class="box-footer box-danger"><a href="<?=$url = Url::to(['application/index']);?>" class="btn btn-sm bg-maroon pull-right">Application List </a></div>
-	<section>
+	<h1>Charge Assumption - TR1 Form </h1>
+	<!-- <div class="box-footer box-danger"><a href="<?=$url = Url::to(['user/transfer']);?>" class="btn btn-sm bg-maroon pull-right">Details</a></div> -->
+	<section class="content">
 
 		<div class="application-index box-footer box-danger">
 			
 	    <?php $form = ActiveForm::begin( [
             'enableClientValidation'=> true,
-            'validateOnBlur'=>false,
+            'validateOnBlur'=>true,
             'validateOnType'=>true,
             'validationDelay'=> 1500, 
-        ]); ?>
-	    	<div class="row">
-	    		<div class="col-md-6">  
-	    			  <?= $form->field($model, 'type_of_request')->dropDownList($TypeOfRequest, 
-                                ['prompt' => 'Select', 'class' => 'form-control']) ?>
-	    		  
-	    	    </div>
-	    		<div class="col-md-6">
-	    			  <?= $form->field($model, 'received_through')->dropDownList($ReceivedThrough, 
-                                ['prompt' => 'Select', 'class' => 'form-control']) ?>
-	    		</div>
+        ]); ?> 
+        <div class="row">
+           <div class="col-md-6">
+             <?= $form->field($modelRole, 'charge')->dropDownList(['Primary'=>'Primary','Additional'=>'Additional'], 
+                                ['prompt' => 'Select', 'class' => 'form-control'])->label('Type of Charge') ?>
+            </div>
+            <div class="col-md-6 hide" id="email">
+             <?= $form->field($user, 'email_id')->textInput(['maxlength' => true,'class'=>' form-control','value'=>''])->label('Email') ?>
+            </div>
+           
+        </div>
+         
+	    	  <div class="row old_div">
+          <div class="col-md-6">
+               <?= $form->field($modelRole, 'old_role')->dropDownList($Roles, 
+                                ['prompt' => 'Select', 'class' => 'form-control','value'=>''])->label('Present Designation') ?>
+          </div>
+          <div class="col-md-6">
+                <?= $form->field($modelRole, 'old_dept')->dropDownList($Departments, 
+                                ['prompt' => 'Select', 'class' => 'form-control' ,'value'=>''])->label('Present Department Name') ?>
+          </div> 
+        </div>
 
-	    	</div>
-	    	<div class="row">
-	    		<div class="col-md-6">
-	    			  <?= $form->field($model, 'concerned_department')->dropDownList($Departments, 
-                                ['prompt' => 'Select', 'class' => 'form-control']) ?>
-	    		</div>
-	    		<div class="col-md-6">
-	    			  <?= $form->field($model, 'purpose')->dropDownList([''=>'Select Type Of Request First']) ?>    
-	    		</div>
-	    	</div>
-	    	 
-	    	
-	    	<div class="row">
-	    		<div class="col-md-6">
-	    			  <?= $form->field($model, 'applicant_name')->textInput(['maxlength' => true]) ?>
-	    			 <!--  <div id="suggesstion-box"></div> -->
-	    			  <div class="dropdown" id="suggesstion-box">	 
-						  <div id="myDropdown" class="dropdown-content">
-						  </div>
-						</div>
-	    		</div>
-	    		<div class="col-md-6">
-	    			  <?= $form->field($model, 'mobile_number')->textInput(['maxlength' => true])  ?>
-	    		</div>
-	    		
-	    	</div>
+        <div class="row">
+           <div class="col-md-6">
+                <?= $form->field($modelRole, 'notification_no')->textInput(['maxlength' => true,'class'=>' form-control','value'=>''])->label('Notification Number') ?>
+            </div>
+             <div class="col-md-6">
+                <?= $form->field($modelRole, 'notification_date')->textInput(['maxlength' => true,'class'=>'datepicker form-control','value'=>''])->label('Notification Date') ?>
+            </div>
+         </div>
 
-	    	<div class="row">
-			    	<div class="col-md-6">
-			    			<?= $form->field($model, 'letter_date')->textInput(['maxlength' => true,'class'=>'datepicker form-control'])  ?> 
-			    	</div>
-			    	<div class="col-md-6">
-			    			<?= $form->field($model, 'district_id')->dropDownList($Districts, 
-                                ['prompt' => 'Select', 'class' => 'form-control']) ?>
-			    	</div>
+        <div class="row">
+          <div class="col-md-6">
+               <?= $form->field($modelRole, 'role_id')->dropDownList($Roles, 
+                                ['prompt' => 'Select', 'class' => 'form-control','value'=>''])->label('New Designation') ?>
+          </div>
+          <div class="col-md-6">
+                <?= $form->field($modelRole, 'department_id')->dropDownList($Departments, 
+                                ['prompt' => 'Select', 'class' => 'form-control','value'=>''])->label('New Department Name') ?>
+          </div> 
+        </div>
+
+	    	<div class="row"> 
+          <div class="col-md-6">
+             <?= $form->field($modelRole, 'date_of_joining')->textInput(['maxlength' => true,'class'=>'datepicker form-control','value'=>''])->label('Date of Joining') ?> 
+          </div>
+          <div class="col-md-6">
+                <?= $form->field($modelRole, 'time_of_joining')->textInput(['maxlength' => true,'class'=>'timepicker form-control','value'=>'10:00'])->label('Time of Joining') ?>
+            </div>
 	    	</div>	
-
-	    	<div class="row">
-	    		<div class="col-md-6">	
-	    			 <?= $form->field($model, 'constituency_detail_from')->dropDownList([''=>'Select District First']) ?>   
-	    		</div>
-	    		<div class="col-md-6">	
-	    			  <?= $form->field($model, 'constituency_detail_to')->dropDownList([''=>'Select District First']) ?>   
-	    		</div>
-	    	</div>
-
-	    	
-
-	    	
-	    	<div class="row">
-	    		<div class="col-md-6">
-	    			  <?= $form->field($model, 'issued_by')->dropDownList($IssuedBy, 
-                                ['prompt' => 'Select', 'class' => 'form-control']) ?>   
-	    		</div>
-	    		<div class="col-md-6">
-	    			  <?= $form->field($model, 'remark')->textarea(['rows' => '4']) ?>
-	    		</div>
-				 	    		
-	    	</div>
-
-	    	
-	    	<div class="row">
-	    		<div class="col-md-12">
-	    			<table class="table table-bordered table-striped table-condensed dform">
-	    			 <input id="form-token" type="hidden" name="token" value="<?=Yii::$app->request->csrfToken?>"/>
-	    					 <tbody>
-			                	 <tr>
-			                	 	<td>
-			                	 		<?= $form->field($documents, 'name')->textInput(['prompt' => 'Select', 'class' => 'form-control']) ?> 
-			                	 	</td>
-			                	 	<td>
-			                	 		 <?= $form->field($documents, 'document')->fileInput(['data-validate' => 'string', 'maxlength' => true,"accept"=>"pdf"]) ?>
-			                	 		 <div id="img-loader" class="hide pull-right"><img src="swcs/img/loader.gif" style="width:8%"></div>
-			                	 		 <span id="msg" style="color: red"></span>
-			                	 	</td>
-			                	 	<td>
-			                	 		<span id="upload" class = "btn btn-primary"><i class="fa fa-upload" aria-hidden="true"></i></span>
-			                	 	</td>
-			                	 </tr>
-	    			     
-			                </tbody> 
-			               
-			            </table>
-			        </div>
-			    </div>
-	    	<br>
-
-	    	<div class="row hide" id="document-list">
-	    		<div class="col-md-12">
-	    			<table class="table table-bordered table-striped table-condensed dform"  id="myTable" data-remove="0">
-	    			
-			                <thead>
-			                    <tr class="">   
-			                        <th>Name: <span class="text-danger">*</span></th>
-			                        <th>Document View :<span class="text-danger">*</span></th> 
-			                        
-			                    </tr>
-			                </thead>
-			                <tbody> 
-			                    <tr >   
-			                         
-			                    </tr> 
-			                </tbody>
-	    			</table>
-	    		</div>
-	    	</div>
-	    	 
+ 
 
 	        <div class="form-group">
-	            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary','align'=>'center']) ?>
+	            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary center','align'=>'center']) ?>
 	        </div>
 	    <?php ActiveForm::end(); ?>
 
 	</div><!-- application-index -->
 	</section>
 	
+</div>
+<br> 
+<div class="container">
+  <section class="content">
+     <div class="application-index box-footer box-danger">
+         <table class="table table-bordered" style="">
+                
+                <thead>
+                    <tr style="">
+                        <th>S.NO</th> 
+                        <th>Designation</th> 
+                        <th>Department</th>   
+                        <th>Joining date</th>
+                        <th>Charge</th> 
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <?php foreach ($allRoles as $key => $value): ?>
+                    
+                
+                <tbody>
+                   <td><?=$key+1?></td> 
+                   <td><?=$value->role->role_name?></td> 
+                   <td><?=$value->department->department_name?></td>  
+                   <td><?=$value->date_of_joining?></td> 
+                   <td><?=$value->charge?></td> 
+                   <td><a href="<?= Url::toRoute(['user/charge-delete','id'=>$value->map_id])?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this charge?');" ><i class="fa fa-times" aria-hidden="true" ></i></a></td> 
+                </tbody>
+
+                <?php endforeach ?>
+            </table>
+      </div> 
+  </section>
 </div>
 
 <script type="text/javascript">
@@ -272,6 +223,18 @@ $Districts =  ArrayHelper::map(Districts::find('district_id', 'district_name')->
 	
 	jQuery(document).ready(function(){ 
 
+    jQuery("#userrolemapping-charge").change(function(){ 
+        Req_id = jQuery(this).val()
+        if(Req_id == 'Additional') { 
+          jQuery('#email').removeClass('hide'); 
+          jQuery('.old_div').hide();
+
+        } else {
+          jQuery('.old_div').show();
+          jQuery('#email').addClass('hide'); 
+        }
+    });    
+
     jQuery("#ordersystem-applicant_name").keyup(function(){ 
        	 
         
@@ -286,25 +249,8 @@ $Districts =  ArrayHelper::map(Districts::find('district_id', 'district_name')->
                 );  
 
     });	
-     
-    jQuery("#ordersystem-type_of_request").change(function(){ 
-       	Req_id = jQuery(this).val()
-       	if(Req_id != 3) {
-       		 
-       		jQuery('.field-ordersystem-constituency_detail_to').hide();
 
-       	} else {
-       		jQuery('.field-ordersystem-constituency_detail_to').show();
-       	}
-        
-        jQuery.get('<?= Url::toRoute('/application/get-purpose') ?>', { 
-                id: Req_id } )
-                .done(function( data ) {
-                        jQuery( "#ordersystem-purpose" ).html( data ); 
-                    }
-                );  
 
-    });
 
     jQuery("#ordersystem-purpose").change(function(){ 
        jQuery.get('<?= Url::toRoute('/application/constituency-from') ?>', { 

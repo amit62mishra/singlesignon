@@ -53,7 +53,7 @@ class Utility extends Component {
 	*/
 	public function isAdmin(){
 		$session = Yii::$app->getSession();
-		if($session->get('role_id')==2)
+		if($session->get('role_id')==3)
 			return true;
 		return false;
 	}

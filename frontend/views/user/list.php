@@ -2,17 +2,14 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\helpers\Url;
+
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Users';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="clearfix"></div>
-<div class="container">
-<section class="content" >   
-<div class="application-index box-footer box-danger">
+<div class="users-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -43,11 +40,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'template' => '{view} {update}',
                 'urlCreator' => function( $action, $model, $key, $index ){
                     if ($action == "update") {
-
-                        return Url::toRoute(['users/update', 'id' =>base64_encode($key)]);
+                        return Yii::$app->urlManager->createAbsoluteUrl("users/update?id=".base64_encode($key));
                     }
                     else if ($action == "view") {
-                        return Url::toRoute(['users/view', 'id' =>$key]);
+                        return Yii::$app->urlManager->createAbsoluteUrl("users/view/".$key);
                     }
 
                 }
@@ -57,6 +53,4 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 
 
-</div>
-</section> 
 </div>
